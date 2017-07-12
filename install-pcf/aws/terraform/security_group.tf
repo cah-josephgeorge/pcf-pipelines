@@ -38,7 +38,7 @@ resource "aws_security_group_rule" "allow_ssh" {
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
-    cidr_blocks     = ["${var.opsman_allow_ssh_cidr_ranges}"]
+    cidr_blocks     = "${var.opsman_allow_ssh_cidr_ranges}"
 
     security_group_id = "${aws_security_group.directorSG.id}"
 }
@@ -49,7 +49,7 @@ resource "aws_security_group_rule" "allow_https" {
     from_port       = 443
     to_port         = 443
     protocol        = "tcp"
-    cidr_blocks     = ["${var.opsman_allow_https_cidr_ranges}"]
+    cidr_blocks     = "${var.opsman_allow_https_cidr_ranges}"
 
     security_group_id = "${aws_security_group.directorSG.id}"
 }
