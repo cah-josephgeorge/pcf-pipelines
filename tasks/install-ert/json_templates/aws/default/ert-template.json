@@ -131,7 +131,7 @@
         "value": {
           "secret": "{{db_networkpolicyserverdb_password}}"
         }
-      },  
+      },
       ".properties.system_database.external.nfsvolume_username": {
         "value": "{{db_nfsvolumedb_username}}"
       },
@@ -139,7 +139,7 @@
         "value": {
           "secret": "{{db_nfsvolumedb_password}}"
         }
-      },          
+      },
       ".cloud_controller.system_domain": {
         "value": "sys.{{pcf_ert_domain}}"
       },
@@ -156,7 +156,7 @@
         "value": false
       },
       ".properties.system_blobstore": {
-        "value": "external"
+        "value": "internal"
       },
       ".properties.system_blobstore.external.buildpacks_bucket": {
         "value": "{{terraform_prefix}}-pcf-buildpacks"
