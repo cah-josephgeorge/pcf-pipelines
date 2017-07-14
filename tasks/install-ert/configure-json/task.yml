@@ -8,7 +8,7 @@ image_resource:
     repository: czero/cflinuxfs2
 
 inputs:
-  - name: pcf-pipelines 
+  - name: pcf-pipelines
   - name: terraform-state
 
 outputs:
@@ -73,3 +73,12 @@ params:
   db_locket_password:
   db_silk_username:
   db_silk_password:
+  USER_STORE:
+  LDAP_URL:
+  LDAP_USER:
+  LDAP_PASSWORD:
+  LDAP_SEARCH_BASE:
+  LDAP_SEARCH_FILTER:
+  LDAP_GROUP_SEARCH_BASE:
+  LDAP_GROUP_SEARCH_FILTER:
+  LDAP_REFERRALS:

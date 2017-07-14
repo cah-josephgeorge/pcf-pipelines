@@ -78,6 +78,46 @@ EOF
   mv config.json $json_file
 fi
 
+if [[ ${USER_STORE} == "ldap" ]] ; then
+  echo "adding ldap authentication properties"
+    cat > ldap_filter <<-'EOF'
+    .properties.properties.".properties.uaa" = {"value": $user_store} |
+    .properties.properties.".properties.uaa.ldap.url" = {"value": $ldap_url} |
+    .properties.properties.".properties.uaa.ldap.credentials.value" = {"identity": $ldap_user} |
+    .properties.properties.".properties.uaa.ldap.credentials.value" = {"password": $ldap_password} |
+    .properties.properties.".properties.uaa.ldap.search_base" = {"value": $ldap_search_base} |
+    .properties.properties.".properties.uaa.ldap.search_filter" = {"value": $ldap_search_filter} |
+    .properties.properties.".properties.uaa.ldap.group_search_base" = {"value": $ldap_group_search_base} |
+    .properties.properties.".properties.uaa.ldap.group_search_filter" = {"value": $ldap_group_search_filter}
+    .properties.properties.".properties.uaa.ldap.ldap_referrals" = {"value": $ldap_referrals}
+EOF
+
+  jq \
+    --arg user_store "$USER_STORE" \
+    --arg ldap_url "$LDAP_URL" \
+    --arg ldap_user "$LDAP_USER" \
+    --arg ldap_password "$LDAP_PASSWORD" \
+    --arg ldap_search_base "$LDAP_SEARCH_BASE" \
+    --arg ldap_search_filter "$LDAP_SEARCH_FILTER" \
+    --arg ldap_group_search_base "$LDAP_GROUP_SEARCH_BASE" \
+    --arg ldap_group_search_filter "$LDAP_GROUP_SEARCH_FILTER" \
+    --arg ldap_referrals "$LDAP_REFERRALS" \
+    --from-file ldap_filter \
+    $json_file > config.json
+  mv config.json $json_file
+else
+    cat > auth_filter <<-'EOF'
+    .properties.properties.".properties.uaa" = {"value": "$user_store"}
+EOF
+
+  jq \
+    --arg user_store "$USER_STORE" \
+    --from-file auth_filter \
+    $json_file > config.json
+  mv config.json $json_file
+
+fi
+
 if [[ ${MYSQL_BACKUPS} == "s3" ]]; then
   echo "adding s3 mysql backup properties"
   cat > mysql_filter <<-'EOF'
@@ -143,7 +183,7 @@ db_creds=(
   db_networkpolicyserverdb_username
   db_networkpolicyserverdb_password
   db_nfsvolumedb_username
-  db_nfsvolumedb_password  
+  db_nfsvolumedb_password
 )
 
 for i in "${db_creds[@]}"
