@@ -107,10 +107,6 @@ cat > cert_filter <<-'EOF'
   .properties.properties.".properties.networking_point_of_entry.external_ssl.ssl_rsa_certificate".value = {
     "cert_pem": $cert_pem,
     "private_key_pem": $private_key_pem
-  } |
-  .properties.properties.".uaa.service_provider_key_credentials".value = {
-    "cert_pem": $saml_cert_pem,
-    "private_key_pem": $saml_key_pem
   }
 EOF
 
@@ -143,7 +139,7 @@ db_creds=(
   db_networkpolicyserverdb_username
   db_networkpolicyserverdb_password
   db_nfsvolumedb_username
-  db_nfsvolumedb_password  
+  db_nfsvolumedb_password
 )
 
 for i in "${db_creds[@]}"
