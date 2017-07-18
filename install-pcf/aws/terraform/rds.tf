@@ -12,15 +12,15 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 resource "aws_db_instance" "pcf_rds" {
     identifier              = "${var.prefix}-pcf"
     allocated_storage       = 100
-    engine                  = "mariadb"
-    engine_version          = "10.1.19"
+    engine                  = "mysql"
+    engine_version          = "5.6.35"
     iops                    = 1000
     instance_class          = "${var.db_instance_type}"
     name                    = "bosh"
     username                = "${var.db_master_username}"
     password                = "${var.db_master_password}"
     db_subnet_group_name    = "${aws_db_subnet_group.rds_subnet_group.name}"
-    parameter_group_name    = "default.mariadb10.1"
+    parameter_group_name    = "default.mysql5.6"
     vpc_security_group_ids  = ["${aws_security_group.rdsSG.id}"]
     multi_az                = true
     backup_retention_period = 7
