@@ -7,6 +7,10 @@ resource "aws_s3_bucket" "pcf-bosh" {
     tags {
         Name = "${var.prefix}-pcf-bosh"
         Environment = "${var.prefix}"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -19,6 +23,10 @@ resource "aws_s3_bucket" "pcf-buildpacks" {
     tags {
         Name = "${var.prefix}-pcf-buildpacks"
         Environment = "${var.prefix}"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -31,6 +39,10 @@ resource "aws_s3_bucket" "pcf-droplets" {
     tags {
         Name = "${var.prefix}-pcf-droplets"
         Environment = "${var.prefix}"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -43,6 +55,10 @@ resource "aws_s3_bucket" "pcf-packages" {
     tags {
         Name = "${var.prefix}-pcf-packages"
         Environment = "${var.prefix}"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -55,5 +71,9 @@ resource "aws_s3_bucket" "pcf-resources" {
     tags {
         Name = "${var.prefix}-pcf-resources"
         Environment = "${var.prefix}"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }

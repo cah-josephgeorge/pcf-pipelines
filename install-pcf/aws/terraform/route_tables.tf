@@ -10,6 +10,10 @@ resource "aws_route_table" "PublicSubnetRouteTable" {
 
     tags {
         Name = "${var.prefix}-Public Subnet Route Table"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -24,6 +28,10 @@ resource "aws_route_table" "PrivateSubnetRouteTable_az1" {
 
     tags {
         Name = "${var.prefix}-Private Subnet Route Table AZ1"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -38,6 +46,10 @@ resource "aws_route_table" "SubnetRouteTable_az2" {
 
     tags {
         Name = "${var.prefix}-Private Subnet Route Table AZ2"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -52,5 +64,9 @@ resource "aws_route_table" "SubnetRouteTable_az3" {
 
     tags {
         Name = "${var.prefix}-Private Subnet Route Table AZ3"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }

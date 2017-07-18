@@ -11,6 +11,10 @@ resource "aws_subnet" "PcfVpcPublicSubnet_az1" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Public Subnet AZ1"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -24,6 +28,10 @@ resource "aws_subnet" "PcfVpcErtSubnet_az1" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Ert Subnet AZ1"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 # 2.2 RDS
@@ -35,6 +43,10 @@ resource "aws_subnet" "PcfVpcRdsSubnet_az1" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Rds Subnet AZ1"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 # 2.3 Services
@@ -46,6 +58,10 @@ resource "aws_subnet" "PcfVpcServicesSubnet_az1" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Services Subnet AZ1"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -63,6 +79,10 @@ resource "aws_subnet" "PcfVpcPublicSubnet_az2" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Public Subnet AZ2"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 resource "aws_subnet" "PcfVpcErtSubnet_az2" {
@@ -73,6 +93,10 @@ resource "aws_subnet" "PcfVpcErtSubnet_az2" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Ert Subnet AZ2"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 resource "aws_subnet" "PcfVpcRdsSubnet_az2" {
@@ -83,6 +107,10 @@ resource "aws_subnet" "PcfVpcRdsSubnet_az2" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Rds Subnet AZ2"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 resource "aws_subnet" "PcfVpcServicesSubnet_az2" {
@@ -93,6 +121,10 @@ resource "aws_subnet" "PcfVpcServicesSubnet_az2" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Services Subnet AZ2"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -109,6 +141,10 @@ resource "aws_subnet" "PcfVpcPublicSubnet_az3" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Public Subnet AZ3"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 resource "aws_subnet" "PcfVpcErtSubnet_az3" {
@@ -119,6 +155,10 @@ resource "aws_subnet" "PcfVpcErtSubnet_az3" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Ert Subnet AZ3"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -130,6 +170,10 @@ resource "aws_subnet" "PcfVpcRdsSubnet_az3" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Rds Subnet AZ3"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 resource "aws_subnet" "PcfVpcServicesSubnet_az3" {
@@ -140,6 +184,10 @@ resource "aws_subnet" "PcfVpcServicesSubnet_az3" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Services Subnet AZ3"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -152,5 +200,9 @@ resource "aws_subnet" "PcfVpcInfraSubnet_az1" {
 
     tags {
         Name = "${var.prefix}-PcfVpc Infrastructure Subnet"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }

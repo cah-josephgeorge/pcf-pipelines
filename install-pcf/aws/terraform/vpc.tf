@@ -6,12 +6,20 @@ resource "aws_vpc" "PcfVpc" {
     enable_dns_hostnames = true
     tags {
         Name = "${var.prefix}-terraform-pcf-vpc"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 resource "aws_internet_gateway" "internetGw" {
     vpc_id = "${aws_vpc.PcfVpc.id}"
     tags {
         Name = "${var.prefix}-internet-gateway"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -23,6 +31,10 @@ resource "aws_security_group" "nat_instance_sg" {
     vpc_id = "${aws_vpc.PcfVpc.id}"
     tags {
         Name = "${var.prefix}-NAT intance security group"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
     ingress {
         from_port = 0
@@ -51,6 +63,10 @@ resource "aws_instance" "nat_az1" {
 
     tags {
         Name = "${var.prefix}-Nat Instance az1"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -67,6 +83,10 @@ resource "aws_instance" "nat_az2" {
 
     tags {
         Name = "${var.prefix}-Nat Instance az2"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -84,5 +104,9 @@ resource "aws_instance" "nat_az3" {
 
     tags {
         Name = "${var.prefix}-Nat Instance az3"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
