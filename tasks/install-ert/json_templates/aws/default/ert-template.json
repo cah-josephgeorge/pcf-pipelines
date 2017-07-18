@@ -179,20 +179,6 @@
       },
       ".mysql_monitor.recipient_email": {
         "value" : "{{mysql_monitor_recipient_email}}"
-      },
-      ".properties.uaa_database.external.host": {
-        "value": "{{db_host}}"
-      },
-      ".properties.uaa_database.external.port": {
-        "value": "3306"
-      },
-      ".properties.uaa_database.external.uaa_username": {
-        "value": "{{db_uaa_username}}"
-      },
-      ".properties.uaa_database.external.uaa_password": {
-        "value": {
-          "secret": "{{db_uaa_password}}"
-        }
       }
     }
   },
