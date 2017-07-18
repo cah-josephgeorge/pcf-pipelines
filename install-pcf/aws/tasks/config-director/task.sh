@@ -55,7 +55,7 @@ resource_configuration=$(cat <<-EOF
 {
   "director": {
     "instance_type": {
-      "id": "m4.large"
+      "id": "m3.large"
     }
   }
 }
