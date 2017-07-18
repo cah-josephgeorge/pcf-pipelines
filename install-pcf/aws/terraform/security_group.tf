@@ -11,6 +11,10 @@ resource "aws_security_group" "directorSG" {
     vpc_id = "${aws_vpc.PcfVpc.id}"
     tags {
         Name = "${var.prefix}-Ops Manager Director Security Group"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
 }
 
@@ -63,6 +67,10 @@ resource "aws_security_group" "rdsSG" {
     vpc_id = "${aws_vpc.PcfVpc.id}"
     tags {
         Name = "${var.prefix}-RDS Security Group"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
     ingress {
         from_port = 3306
@@ -88,6 +96,10 @@ resource "aws_security_group" "pcfSG" {
     vpc_id = "${aws_vpc.PcfVpc.id}"
     tags {
         Name = "${var.prefix}-PCF VMs Security Group"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
     ingress {
         from_port = 0

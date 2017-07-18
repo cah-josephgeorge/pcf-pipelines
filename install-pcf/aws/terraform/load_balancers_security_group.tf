@@ -11,6 +11,10 @@ resource "aws_security_group" "PcfHttpElbSg" {
     vpc_id = "${aws_vpc.PcfVpc.id}"
     tags {
         Name = "${var.prefix}-PcfHttpElb Security Group"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
     ingress {
         from_port = 80
@@ -44,6 +48,10 @@ resource "aws_security_group" "PcfSshElbSg" {
     vpc_id = "${aws_vpc.PcfVpc.id}"
     tags {
         Name = "${var.prefix}-PcfSshElb Security Group"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
     ingress {
         from_port = 2222
@@ -64,6 +72,10 @@ resource "aws_security_group" "PcfTcpElbSg" {
     vpc_id = "${aws_vpc.PcfVpc.id}"
     tags {
         Name = "${var.prefix}-PcfTcpElb Security Group"
+
+        "fuse.terraform" = "pivotal-sb1"
+        "fuse:product" = "pivotal"
+        "fuse:environment" = "nonprod"
     }
     ingress {
         from_port = 1024
