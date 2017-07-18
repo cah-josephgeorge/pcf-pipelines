@@ -52,22 +52,6 @@
       ".properties.system_database.external.host": {
         "value": "{{db_host}}"
       },
-      ".properties.system_database.external.locket_username": {
-        "value": "{{db_locket_username}}"
-      },
-      ".properties.system_database.external.locket_password": {
-        "value": {
-	  "secret": "{{db_locket_password}}"
-        }
-      },
-      ".properties.system_database.external.silk_username": {
-        "value": "{{db_silk_username}}"
-      },
-      ".properties.system_database.external.silk_password": {
-        "value": {
-	  "secret": "{{db_silk_password}}"
-        }
-      },
       ".properties.system_database.external.app_usage_service_username": {
         "value": "{{db_app_usage_service_username}}"
       },
@@ -131,7 +115,7 @@
         "value": {
           "secret": "{{db_networkpolicyserverdb_password}}"
         }
-      },  
+      },
       ".properties.system_database.external.nfsvolume_username": {
         "value": "{{db_nfsvolumedb_username}}"
       },
@@ -139,7 +123,7 @@
         "value": {
           "secret": "{{db_nfsvolumedb_password}}"
         }
-      },          
+      },
       ".cloud_controller.system_domain": {
         "value": "sys.{{pcf_ert_domain}}"
       },
@@ -195,15 +179,6 @@
       },
       ".mysql_monitor.recipient_email": {
         "value" : "{{mysql_monitor_recipient_email}}"
-      },
-      ".uaa.service_provider_key_credentials": {
-        "value": {
-          "cert_pem": "",
-          "private_key_pem": ""
-        }
-      },
-      ".properties.uaa_database": {
-        "value": "external"
       },
       ".properties.uaa_database.external.host": {
         "value": "{{db_host}}"
