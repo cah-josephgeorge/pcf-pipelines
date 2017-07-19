@@ -124,6 +124,14 @@
           "secret": "{{db_nfsvolumedb_password}}"
         }
       },
+      ".properties.system_database.external.uaa_username": {
+        "value": "{{db_uaa_username}}"
+      },
+      ".properties.system_database.external.uaa_password": {
+        "value": {
+          "secret": "{{db_uaa_password}}"
+        }
+      },
       ".cloud_controller.system_domain": {
         "value": "sys.{{pcf_ert_domain}}"
       },
