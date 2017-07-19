@@ -83,8 +83,7 @@ if [[ ${USER_STORE} == "ldap" ]] ; then
     cat > ldap_filter <<-'EOF'
     .properties.properties.".properties.uaa" = {"value": $user_store} |
     .properties.properties.".properties.uaa.ldap.url" = {"value": $ldap_url} |
-    .properties.properties.".properties.uaa.ldap.credentials.value" = {"identity": $ldap_user} |
-    .properties.properties.".properties.uaa.ldap.credentials.value" = {"password": $ldap_password} |
+    .properties.properties.".properties.uaa.ldap.credentials" = {"identity": $ldap_user, "password": $ldap_password} |
     .properties.properties.".properties.uaa.ldap.search_base" = {"value": $ldap_search_base} |
     .properties.properties.".properties.uaa.ldap.search_filter" = {"value": $ldap_search_filter} |
     .properties.properties.".properties.uaa.ldap.group_search_base" = {"value": $ldap_group_search_base} |
