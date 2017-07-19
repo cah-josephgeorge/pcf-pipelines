@@ -88,7 +88,7 @@ if [[ ${USER_STORE} == "ldap" ]] ; then
     .properties.properties.".properties.uaa.ldap.search_base" = {"value": $ldap_search_base} |
     .properties.properties.".properties.uaa.ldap.search_filter" = {"value": $ldap_search_filter} |
     .properties.properties.".properties.uaa.ldap.group_search_base" = {"value": $ldap_group_search_base} |
-    .properties.properties.".properties.uaa.ldap.group_search_filter" = {"value": $ldap_group_search_filter}
+    .properties.properties.".properties.uaa.ldap.group_search_filter" = {"value": $ldap_group_search_filter} |
     .properties.properties.".properties.uaa.ldap.ldap_referrals" = {"value": $ldap_referrals}
 EOF
 
