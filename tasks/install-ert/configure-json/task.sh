@@ -22,8 +22,8 @@ OPS_MGR_PWD="$pcf_opsman_admin_passwd"
 
 if [[ ${pcf_ert_ssl_cert} == "" || ${pcf_ert_ssl_cert} == "generate" ]]; then
   domains=(
-    "*.sys.${pcf_ert_domain}"
-    "*.cfapps.${pcf_ert_domain}"
+    "*.system.${pcf_ert_domain}"
+    "*.apps.${pcf_ert_domain}"
   )
 
   certificates=$(generate_cert "${domains[*]}")
@@ -32,9 +32,9 @@ if [[ ${pcf_ert_ssl_cert} == "" || ${pcf_ert_ssl_cert} == "generate" ]]; then
 fi
 
 saml_domains=(
-  "*.sys.${pcf_ert_domain}"
+  "*.system.${pcf_ert_domain}"
   "*.login.sys.${pcf_ert_domain}"
-  "*.uaa.sys.${pcf_ert_domain}"
+  "*.uaa.system.${pcf_ert_domain}"
 )
 
 saml_certificates=$(generate_cert "${saml_domains[*]}")
