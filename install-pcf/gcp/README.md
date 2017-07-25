@@ -40,7 +40,7 @@ secrets.
 5. Unpause the pipeline
 6. Run `bootstrap-terraform-state` to bootstrap the Terraform .tfstate file. This only needs to be run once.
 7. `upload-opsman-image` will automatically upload the latest matching version of Operations Manager
-8. Run the `create-initial-terraform-state` job manually. This will prepare the s3 resource that holds the terraform state.
+8. Run the `bootstrap-terraform-state` job manually. This will prepare the s3 resource that holds the terraform state.
 9. Trigger the `create-infrastructure` job. `create-infrastructure` will output at the end the DNS settings that you must configure before continuing.
 10. Once DNS is set up you can run `configure-director`. From there the pipeline should automatically run through to the end.
 
@@ -54,6 +54,13 @@ _**Note: This job currently is not all-encompassing. If you have deployed ERT yo
 If you want to bring the environment up again, run `create-infrastructure`.
 
 ## Known Issues
+
+### `create-infrastructure` job trying to delete SSL cert in use
+
+When the `create-infrastructure` job runs, it may generate an error like this:
+`google_compute_ssl_certificate.ssl-cert (destroy): 1 error(s) occurred:
+google_compute_ssl_certificate.ssl-cert: Error deleting ssl certificate: googleapi: Error 400: The ssl_certificate resource 'projects/<redacted>/global/sslCertificates/<redacted>-gcp-lb-cert' is already being used by 'projects/<redacted>/global/targetHttpsProxies/<redacted>-gcp-https-proxy', resourceInUseByAnotherResource`
+When this happens, after you've initially run create-infrastructure, update your params to supply the generated certs so they aren't recreated.
 
 ### `wipe-env` job
 * The job does not account for installed tiles, which means VMs created by tile
