@@ -4,7 +4,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
     tags {
         Name = "${var.prefix} RDS DB subnet group"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -28,7 +28,7 @@ resource "aws_db_instance" "pcf_rds" {
     skip_final_snapshot     = true
 
     tags {
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }

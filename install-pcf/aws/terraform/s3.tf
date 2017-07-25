@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "pcf-bosh" {
         Name = "${var.prefix}-pcf-bosh"
         Environment = "${var.prefix}"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -22,7 +22,7 @@ resource "aws_s3_bucket" "pcf-buildpacks" {
         Name = "${var.prefix}-pcf-buildpacks"
         Environment = "${var.prefix}"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -37,7 +37,7 @@ resource "aws_s3_bucket" "pcf-droplets" {
         Name = "${var.prefix}-pcf-droplets"
         Environment = "${var.prefix}"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -52,7 +52,7 @@ resource "aws_s3_bucket" "pcf-packages" {
         Name = "${var.prefix}-pcf-packages"
         Environment = "${var.prefix}"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -67,7 +67,7 @@ resource "aws_s3_bucket" "pcf-resources" {
         Name = "${var.prefix}-pcf-resources"
         Environment = "${var.prefix}"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }

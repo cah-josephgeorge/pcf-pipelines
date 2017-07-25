@@ -27,7 +27,7 @@ resource "aws_elb" "PcfHttpElb" {
   tags {
     Name = "${var.prefix}-Pcf Http Elb"
 
-    "fuse.terraform" = "pivotal-sb1"
+    "fuse:terraform" = "pivotal-sb1"
     "fuse:product" = "pivotal"
     "fuse:environment" = "nonprod"
   }
@@ -54,7 +54,7 @@ resource "aws_elb" "PcfSshElb" {
   tags {
     Name = "${var.prefix}-Pcf Ssh Elb"
 
-    "fuse.terraform" = "pivotal-sb1"
+    "fuse:terraform" = "pivotal-sb1"
     "fuse:product" = "pivotal"
     "fuse:environment" = "nonprod"
   }
@@ -676,7 +676,7 @@ resource "aws_elb" "PcfTcpElb" {
   tags {
     Name = "${var.prefix}-Pcf Tcp Elb"
 
-    "fuse.terraform" = "pivotal-sb1"
+    "fuse:terraform" = "pivotal-sb1"
     "fuse:product" = "pivotal"
     "fuse:environment" = "nonprod"
   }

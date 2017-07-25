@@ -12,7 +12,7 @@ resource "aws_security_group" "directorSG" {
     tags {
         Name = "${var.prefix}-Ops Manager Director Security Group"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -48,9 +48,9 @@ resource "aws_security_group_rule" "allow_ssh" {
 }
 
 resource "aws_security_group_rule" "allow_https" {
-    count           = "${var.opsman_allow_https}" 
+    count           = "${var.opsman_allow_https}"
     type            = "ingress"
-    from_port       = 443 
+    from_port       = 443
     to_port         = 443
     protocol        = "tcp"
     cidr_blocks     = "${var.opsman_allow_https_cidr_ranges}"
@@ -68,7 +68,7 @@ resource "aws_security_group" "rdsSG" {
     tags {
         Name = "${var.prefix}-RDS Security Group"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -97,7 +97,7 @@ resource "aws_security_group" "pcfSG" {
     tags {
         Name = "${var.prefix}-PCF VMs Security Group"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }

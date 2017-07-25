@@ -12,7 +12,7 @@ resource "aws_security_group" "PcfHttpElbSg" {
     tags {
         Name = "${var.prefix}-PcfHttpElb Security Group"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -49,7 +49,7 @@ resource "aws_security_group" "PcfSshElbSg" {
     tags {
         Name = "${var.prefix}-PcfSshElb Security Group"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -73,7 +73,7 @@ resource "aws_security_group" "PcfTcpElbSg" {
     tags {
         Name = "${var.prefix}-PcfTcpElb Security Group"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }

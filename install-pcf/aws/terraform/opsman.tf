@@ -15,7 +15,7 @@ resource "aws_instance" "opsmman_az1" {
   tags {
     Name = "${var.prefix}-OpsMan az1"
 
-    "fuse.terraform" = "pivotal-sb1"
+    "fuse:terraform" = "pivotal-sb1"
     "fuse:product" = "pivotal"
     "fuse:environment" = "nonprod"
     "fuse:crowdstrike" = "na"

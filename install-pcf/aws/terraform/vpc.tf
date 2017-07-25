@@ -7,7 +7,7 @@ resource "aws_vpc" "PcfVpc" {
     tags {
         Name = "${var.prefix}-terraform-pcf-vpc"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -17,7 +17,7 @@ resource "aws_internet_gateway" "internetGw" {
     tags {
         Name = "${var.prefix}-internet-gateway"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -32,7 +32,7 @@ resource "aws_security_group" "nat_instance_sg" {
     tags {
         Name = "${var.prefix}-NAT intance security group"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -64,7 +64,7 @@ resource "aws_instance" "nat_az1" {
     tags {
         Name = "${var.prefix}-Nat Instance az1"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -84,7 +84,7 @@ resource "aws_instance" "nat_az2" {
     tags {
         Name = "${var.prefix}-Nat Instance az2"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
@@ -105,7 +105,7 @@ resource "aws_instance" "nat_az3" {
     tags {
         Name = "${var.prefix}-Nat Instance az3"
 
-        "fuse.terraform" = "pivotal-sb1"
+        "fuse:terraform" = "pivotal-sb1"
         "fuse:product" = "pivotal"
         "fuse:environment" = "nonprod"
     }
