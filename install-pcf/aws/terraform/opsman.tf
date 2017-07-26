@@ -21,3 +21,12 @@ resource "aws_instance" "opsmman_az1" {
     "fuse:crowdstrike" = "na"
   }
 }
+
+resource "aws_eip_association" "eip_assoc_opsman_az1" {
+  instance_id   = "${aws_instance.opsmman_az1.id}"
+  allocation_id = "${data.aws_eip.eip_opsman_az1.id}"
+}
+
+data "aws_eip" "eip_opsman_az1" {
+  public_ip = "${var.opsman_public_ip_az1}"
+}

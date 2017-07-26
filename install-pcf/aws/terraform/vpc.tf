@@ -110,3 +110,30 @@ resource "aws_instance" "nat_az3" {
         "fuse:environment" = "nonprod"
     }
 }
+
+resource "aws_eip_association" "eip_assoc_nat_az1" {
+    instance_id   = "${aws_instance.nat_az1.id}"
+    allocation_id = "${data.aws_eip.eip_nat_az1.id}"
+}
+
+resource "aws_eip_association" "eip_assoc_nat_az2" {
+    instance_id   = "${aws_instance.nat_az2.id}"
+    allocation_id = "${data.aws_eip.eip_nat_az2.id}"
+}
+
+resource "aws_eip_association" "eip_assoc_nat_az3" {
+    instance_id   = "${aws_instance.nat_az3.id}"
+    allocation_id = "${data.aws_eip.eip_nat_az3.id}"
+}
+
+data "aws_eip" "eip_nat_az1" {
+    public_ip = "${var.nat_public_ip_az1}"
+}
+
+data "aws_eip" "eip_nat_az2" {
+    public_ip = "${var.nat_public_ip_az2}"
+}
+
+data "aws_eip" "eip_nat_az3" {
+    public_ip = "${var.nat_public_ip_az3}"
+}

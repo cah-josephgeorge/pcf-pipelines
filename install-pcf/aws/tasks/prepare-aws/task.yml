@@ -6,7 +6,7 @@ image_resource:
   source:
     repository: czero/cflinuxfs2
 inputs:
-  - name: pcf-pipelines 
+  - name: pcf-pipelines
   - name: terraform-state
   - name: ami
 outputs:
@@ -40,9 +40,13 @@ params:
   TF_VAR_rds_subnet_cidr_az2:
   TF_VAR_rds_subnet_cidr_az3:
   TF_VAR_opsman_ip_az1:
+  TF_VAR_opsman_public_ip_az1:
   TF_VAR_nat_ip_az1:
   TF_VAR_nat_ip_az2:
   TF_VAR_nat_ip_az3:
+  TF_VAR_nat_public_ip_az1:
+  TF_VAR_nat_public_ip_az2:
+  TF_VAR_nat_public_ip_az3:
   OPSMAN_ALLOW_SSH_CIDR_RANGES:
   OPSMAN_ALLOW_HTTPS_CIDR_RANGES:
 run:

@@ -139,3 +139,19 @@ variable "nat_ip_az3" {
 variable "route53_zone_id" {
     default = "ZG7DC4PX2OYY4"
 }
+
+variable "opsman_public_ip_az1" {
+    description = "OpsMan Public IP for AZ1"
+}
+
+variable "nat_public_ip_az1" {
+    description = "NAT Public IP for AZ1"
+}
+
+variable "nat_public_ip_az2" {
+    description = "NAT Public IP for AZ2"
+}
+
+variable "nat_public_ip_az3" {
+    description = "NAT Public IP for AZ3"
+}
