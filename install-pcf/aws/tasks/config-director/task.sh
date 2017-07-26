@@ -22,7 +22,7 @@ read -r -d '' iaas_configuration <<EOF
   "key_pair_name": "$AWS_KEY_NAME",
   "ssh_private_key": "",
   "region": "$AWS_REGION",
-  "encrypted": false
+  "encrypted": true
 }
 EOF
 
@@ -55,7 +55,7 @@ resource_configuration=$(cat <<-EOF
 {
   "director": {
     "instance_type": {
-      "id": "m3.large"
+      "id": "c4.xlarge"
     }
   }
 }
