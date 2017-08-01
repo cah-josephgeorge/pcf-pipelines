@@ -22,8 +22,8 @@ OPS_MGR_PWD="$pcf_opsman_admin_passwd"
 
 if [[ ${pcf_ert_ssl_cert} == "" || ${pcf_ert_ssl_cert} == "generate" ]]; then
   domains=(
-    "*.sys.${pcf_ert_domain}"
-    "*.cfapps.${pcf_ert_domain}"
+    "*.system.${pcf_ert_domain}"
+    "*.apps.${pcf_ert_domain}"
   )
 
   certificates=$(generate_cert "${domains[*]}")
@@ -32,9 +32,9 @@ if [[ ${pcf_ert_ssl_cert} == "" || ${pcf_ert_ssl_cert} == "generate" ]]; then
 fi
 
 saml_domains=(
-  "*.sys.${pcf_ert_domain}"
+  "*.system.${pcf_ert_domain}"
   "*.login.sys.${pcf_ert_domain}"
-  "*.uaa.sys.${pcf_ert_domain}"
+  "*.uaa.system.${pcf_ert_domain}"
 )
 
 saml_certificates=$(generate_cert "${saml_domains[*]}")
@@ -78,6 +78,45 @@ EOF
   mv config.json $json_file
 fi
 
+if [[ ${USER_STORE} == "ldap" ]] ; then
+  echo "adding ldap authentication properties"
+    cat > ldap_filter <<-'EOF'
+    .properties.properties.".properties.uaa" = {"value": $user_store} |
+    .properties.properties.".properties.uaa.ldap.url" = {"value": $ldap_url} |
+    .properties.properties.".properties.uaa.ldap.credentials".value = {"identity": $ldap_user, "password": $ldap_password} |
+    .properties.properties.".properties.uaa.ldap.search_base" = {"value": $ldap_search_base} |
+    .properties.properties.".properties.uaa.ldap.search_filter" = {"value": $ldap_search_filter} |
+    .properties.properties.".properties.uaa.ldap.group_search_base" = {"value": $ldap_group_search_base} |
+    .properties.properties.".properties.uaa.ldap.group_search_filter" = {"value": $ldap_group_search_filter} |
+    .properties.properties.".properties.uaa.ldap.ldap_referrals" = {"value": $ldap_referrals}
+EOF
+
+  jq \
+    --arg user_store "$USER_STORE" \
+    --arg ldap_url "$LDAP_URL" \
+    --arg ldap_user "$LDAP_USER" \
+    --arg ldap_password "$LDAP_PASSWORD" \
+    --arg ldap_search_base "$LDAP_SEARCH_BASE" \
+    --arg ldap_search_filter "$LDAP_SEARCH_FILTER" \
+    --arg ldap_group_search_base "$LDAP_GROUP_SEARCH_BASE" \
+    --arg ldap_group_search_filter "$LDAP_GROUP_SEARCH_FILTER" \
+    --arg ldap_referrals "$LDAP_REFERRALS" \
+    --from-file ldap_filter \
+    $json_file > config.json
+  mv config.json $json_file
+else
+    cat > auth_filter <<-'EOF'
+    .properties.properties.".properties.uaa" = {"value": "$user_store"}
+EOF
+
+  jq \
+    --arg user_store "$USER_STORE" \
+    --from-file auth_filter \
+    $json_file > config.json
+  mv config.json $json_file
+
+fi
+
 if [[ ${MYSQL_BACKUPS} == "s3" ]]; then
   echo "adding s3 mysql backup properties"
   cat > mysql_filter <<-'EOF'
@@ -107,6 +146,10 @@ cat > cert_filter <<-'EOF'
   .properties.properties.".properties.networking_point_of_entry.external_ssl.ssl_rsa_certificate".value = {
     "cert_pem": $cert_pem,
     "private_key_pem": $private_key_pem
+  } |
+  .properties.properties.".uaa.service_provider_key_credentials".value = {
+    "cert_pem": $saml_cert_pem,
+    "private_key_pem": $saml_key_pem
   }
 EOF
 
