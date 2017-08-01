@@ -145,7 +145,7 @@ jobs:
       DB_AWS_SERVICE_BROKER_PASSWORD: {{db_aws_service_broker_password}}
 
   - task: configure-json
-    file: pcf-pipelines/install-aws-service-broker/configure-json/task.yml
+    file: pcf-pipelines/install-aws-service-broker/tasks/configure-json/task.yml
     params:
       pcf_iaas: aws
       pcf_ert_domain: {{ERT_DOMAIN}}
@@ -159,8 +159,8 @@ jobs:
       S3_ENDPOINT: {{S3_ENDPOINT}}
       mysql_monitor_recipient_email: {{mysql_monitor_recipient_email}}
 
-  - task: configure-aws
-    file: pcf-pipelines/tasks/install-aws/configure-aws/task.yml
+  - task: configure-service-broker
+    file: pcf-pipelines/install-aws-service-broker/tasks/configure-service-broker/task.yml
     params:
       pcf_iaas: aws
       pcf_ert_domain: {{ERT_DOMAIN}}
