@@ -56,7 +56,7 @@ function fn_om_linux_curl {
 echo "=============================================================================================="
 echo "Deploying AWS Service Broker @ https://opsman.$pcf_ert_domain ..."
 echo "=============================================================================================="
-# Get cf Product Guid
+# Get aws-services Product Guid
 guid_cf=$(fn_om_linux_curl "GET" "/api/v0/staged/products" \
             | jq --raw-output '.[] | select(.type == "aws-services") | .guid' | grep "aws-services-.*")
 
@@ -72,7 +72,7 @@ echo "==========================================================================
 json_net_and_az=$(cat ${json_file} | jq -c .networks_and_azs)
 fn_om_linux_curl "PUT" "/api/v0/staged/products/${guid_cf}/networks_and_azs" "$json_net_and_az"
 
-# Set ERT Properties
+# Set AWS Service Broker Properties
 echo "=============================================================================================="
 echo "Setting Properties for: ${guid_cf}"
 echo "=============================================================================================="
