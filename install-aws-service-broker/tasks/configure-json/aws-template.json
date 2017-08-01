@@ -78,5 +78,23 @@
         "value": false
       }
     }
+  },
+  "jobs": {
+    "deploy-errand": {
+      "instance_type": {
+        "id": "automatic"
+      },
+      "instances": 1,
+      "elb_names": [],
+      "internet_connected": false
+    },
+    "delete-errand": {
+      "instance_type": {
+        "id": "automatic"
+      },
+      "instances": 1,
+      "elb_names": [],
+      "internet_connected": false
+    }
   }
 }
