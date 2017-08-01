@@ -15,7 +15,7 @@ resources:
     endpoint: {{S3_ENDPOINT}}
     bucket: {{S3_OUTPUT_BUCKET}}
     region_name: {{S3_REGION}}
-    versioned_file: terraform.tfstate
+    versioned_file: {{S3_TFSTATE}}
 
 - name: pivnet-aws-service-broker
   type: pivnet
@@ -30,10 +30,63 @@ resources:
   type: git
   source:
     uri: git@github.com:cah-josephgeorge/pcf-pipelines.git
-    branch: master
+    branch: fuse
     private_key: {{git_private_key}}
 
 jobs:
+- name: bootstrap-terraform-state
+  serial_groups: [terraform]
+  plan:
+  - get: pcf-pipelines
+  - task: create-terraform-state
+    params:
+      S3_BUCKET_TERRAFORM: {{S3_OUTPUT_BUCKET}}
+      S3_ENDPOINT: {{S3_ENDPOINT}}
+      S3_REGION: {{TF_VAR_aws_region}}
+      S3_TFSTATE: {{S3_TFSTATE}}
+      AWS_ACCESS_KEY_ID: {{TF_VAR_aws_access_key}}
+      AWS_SECRET_ACCESS_KEY: {{TF_VAR_aws_secret_key}}
+    file: pcf-pipelines/tasks/create-initial-terraform-state/task.yml
+
+- name: create-infrastructure
+  serial_groups: [terraform]
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: terraform-state
+
+  - task: create-infrastructure
+    file: pcf-pipelines/install-aws-service-broker/tasks/prepare-aws/task.yml
+    params:
+      DB_MASTER_USERNAME: {{db_master_username}}
+      DB_MASTER_PASSWORD: {{db_master_password}}
+      TERRAFORM_PREFIX: {{terraform_prefix}}
+      TF_VAR_aws_access_key: {{TF_VAR_aws_access_key}}
+      TF_VAR_aws_secret_key: {{TF_VAR_aws_secret_key}}
+      TF_VAR_aws_region: {{TF_VAR_aws_region}}
+      TF_VAR_az1: {{TF_VAR_az1}}
+      TF_VAR_az2: {{TF_VAR_az2}}
+      TF_VAR_az3: {{TF_VAR_az3}}
+      TF_VAR_vpc_cidr: {{TF_VAR_vpc_cidr}}
+      TF_VAR_public_subnet_cidr_az1: {{TF_VAR_public_subnet_cidr_az1}}
+      TF_VAR_public_subnet_cidr_az2: {{TF_VAR_public_subnet_cidr_az2}}
+      TF_VAR_public_subnet_cidr_az3: {{TF_VAR_public_subnet_cidr_az3}}
+      TF_VAR_ert_subnet_cidr_az1: {{TF_VAR_ert_subnet_cidr_az1}}
+      TF_VAR_ert_subnet_cidr_az2: {{TF_VAR_ert_subnet_cidr_az2}}
+      TF_VAR_ert_subnet_cidr_az3: {{TF_VAR_ert_subnet_cidr_az3}}
+      TF_VAR_services_subnet_cidr_az1: {{TF_VAR_services_subnet_cidr_az1}}
+      TF_VAR_services_subnet_cidr_az2: {{TF_VAR_services_subnet_cidr_az2}}
+      TF_VAR_services_subnet_cidr_az3: {{TF_VAR_services_subnet_cidr_az3}}
+      TF_VAR_infra_subnet_cidr_az1: {{TF_VAR_infra_subnet_cidr_az1}}
+      TF_VAR_rds_subnet_cidr_az1: {{TF_VAR_rds_subnet_cidr_az1}}
+      TF_VAR_rds_subnet_cidr_az2: {{TF_VAR_rds_subnet_cidr_az2}}
+      TF_VAR_rds_subnet_cidr_az3: {{TF_VAR_rds_subnet_cidr_az3}}
+      TF_VAR_opsman_ip_az1: {{TF_VAR_opsman_ip_az1}}
+    ensure:
+      put: terraform-state
+      params:
+        file: terraform-state-output/terraform.tfstate
+
 - name: upload-aws
   serial_groups: [opsman]
   plan:
@@ -45,8 +98,7 @@ jobs:
         globs:
         - "*pivotal"
     - get: terraform-state
-      trigger: true
-      passed: [deploy-director]
+      passed: [create-infrastructure]
   - task: upload-tile
     file: pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
     params:
@@ -81,8 +133,6 @@ jobs:
       pcf_ert_domain: {{ERT_DOMAIN}}
       pcf_opsman_admin: {{OPSMAN_USER}}
       pcf_opsman_admin_passwd: {{OPSMAN_PASSWORD}}
-      pcf_ert_ssl_cert: {{ERT_SSL_CERT}}
-      pcf_ert_ssl_key: {{ERT_SSL_KEY}}
       pcf_az_1: {{TF_VAR_az1}}
       pcf_az_2: {{TF_VAR_az2}}
       pcf_az_3: {{TF_VAR_az3}}
@@ -90,19 +140,6 @@ jobs:
       terraform_prefix: {{terraform_prefix}}
       S3_ENDPOINT: {{S3_ENDPOINT}}
       mysql_monitor_recipient_email: {{mysql_monitor_recipient_email}}
-      MYSQL_BACKUPS: {{mysql_backups}}
-      MYSQL_BACKUPS_SCP_SERVER: {{mysql_backups_scp_server}}
-      MYSQL_BACKUPS_SCP_PORT: {{mysql_backups_scp_port}}
-      MYSQL_BACKUPS_SCP_USER: {{mysql_backups_scp_user}}
-      MYSQL_BACKUPS_SCP_KEY: {{mysql_backups_scp_key}}
-      MYSQL_BACKUPS_SCP_DESTINATION: {{mysql_backups_scp_destination}}
-      MYSQL_BACKUPS_SCP_CRON_SCHEDULE: {{mysql_backups_scp_cron_schedule}}
-      MYSQL_BACKUPS_S3_ENDPOINT_URL: {{mysql_backups_s3_endpoint_url}}
-      MYSQL_BACKUPS_S3_BUCKET_NAME: {{mysql_backups_s3_bucket_name}}
-      MYSQL_BACKUPS_S3_BUCKET_PATH: {{mysql_backups_s3_bucket_path}}
-      MYSQL_BACKUPS_S3_ACCESS_KEY_ID: {{mysql_backups_s3_access_key_id}}
-      MYSQL_BACKUPS_S3_SECRET_ACCESS_KEY: {{mysql_backups_s3_secret_access_key}}
-      MYSQL_BACKUPS_S3_CRON_SCHEDULE: {{mysql_backups_s3_cron_schedule}}
 
   - task: configure-aws
     file: pcf-pipelines/tasks/install-aws/configure-aws/task.yml
