@@ -3,3 +3,4 @@ config
 *.iml
 .idea
 *.sw[po]
+**/settings.yml
