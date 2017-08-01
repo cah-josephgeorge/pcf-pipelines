@@ -54,7 +54,7 @@
         "value": 3306
       },
       ".properties.backing_db_selector.external_mysql.db_name": {
-        "value": "aws-service-broker"
+        "value": "aws_service_broker"
       },
       ".properties.db_ssl_selector": {
         "value": "Disabled"
