@@ -10,6 +10,7 @@ image_resource:
 inputs:
   - name: pcf-pipelines
   - name: terraform-state
+  - name: pcf-terraform-state
 
 outputs:
   - name: json_file
@@ -35,50 +36,5 @@ params:
   # aws specific
   S3_ENDPOINT:
   # db credentials
-  db_app_usage_service_username:
-  db_app_usage_service_password:
-  db_autoscale_username:
-  db_autoscale_password:
-  db_diego_username:
-  db_diego_password:
-  db_notifications_username:
-  db_notifications_password:
-  db_routing_username:
-  db_routing_password:
-  db_uaa_username:
-  db_uaa_password:
-  db_ccdb_username:
-  db_ccdb_password:
-  mysql_monitor_recipient_email:
-  MYSQL_BACKUPS:
-  MYSQL_BACKUPS_SCP_SERVER:
-  MYSQL_BACKUPS_SCP_PORT:
-  MYSQL_BACKUPS_SCP_USER:
-  MYSQL_BACKUPS_SCP_KEY:
-  MYSQL_BACKUPS_SCP_DESTINATION:
-  MYSQL_BACKUPS_SCP_CRON_SCHEDULE:
-  MYSQL_BACKUPS_S3_ENDPOINT_URL:
-  MYSQL_BACKUPS_S3_BUCKET_NAME:
-  MYSQL_BACKUPS_S3_BUCKET_PATH:
-  MYSQL_BACKUPS_S3_ACCESS_KEY_ID:
-  MYSQL_BACKUPS_S3_SECRET_ACCESS_KEY:
-  MYSQL_BACKUPS_S3_CRON_SCHEDULE:
-  db_accountdb_username:
-  db_accountdb_password:
-  db_networkpolicyserverdb_username:
-  db_networkpolicyserverdb_password:
-  db_nfsvolumedb_username:
-  db_nfsvolumedb_password:
-  db_locket_username:
-  db_locket_password:
-  db_silk_username:
-  db_silk_password:
-  USER_STORE:
-  LDAP_URL:
-  LDAP_USER:
-  LDAP_PASSWORD:
-  LDAP_SEARCH_BASE:
-  LDAP_SEARCH_FILTER:
-  LDAP_GROUP_SEARCH_BASE:
-  LDAP_GROUP_SEARCH_FILTER:
-  LDAP_REFERRALS:
+  db_aws_service_broker_username:
+  db_aws_service_broker_password:

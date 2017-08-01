@@ -23,32 +23,32 @@
   "properties": {
     "properties": {
       ".properties.aws_access_key_id": {
-        "value": "keyid"
+        "value": "{{keyid}}"
       },
       ".properties.aws_secret_access_key": {
         "value": {
-          "secret": "secretkey"
+          "secret": "{{secretkey}}"
         }
       },
       ".properties.aws_default_region": {
         "value": "us-east-1"
       },
       ".properties.broker_policy_name": {
-        "value": "PCFInstallationPolicy"
+        "value": "{{prefix}}_PCFInstallationPolicy"
       },
       ".properties.backing_db_selector": {
         "value": "External MySQL"
       },
       ".properties.backing_db_selector.external_mysql.db_username": {
-        "value": "name"
+        "value": "{{db_aws_service_broker_username}}"
       },
       ".properties.backing_db_selector.external_mysql.db_password": {
         "value": {
-          "secret": "password"
+          "secret": "{{db_aws_service_broker_password}}"
         }
       },
       ".properties.backing_db_selector.external_mysql.db_host": {
-        "value": "0.0.0.0"
+        "value": "{{db_host}}"
       },
       ".properties.backing_db_selector.external_mysql.db_port": {
         "value": 3306
