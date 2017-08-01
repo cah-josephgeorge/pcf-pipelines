@@ -11,7 +11,7 @@ inputs:
 params:
   PEM:
   ERT_DOMAIN:
-  DB_AWS_SERVICE_BROKER_USERNAME:
-  DB_AWS_SERVICE_BROKER_PASSWORD:
+  db_aws_service_broker_username:
+  db_aws_service_broker_password:
 run:
   path: pcf-pipelines/install-aws-service-broker/tasks/prepare-rds/task.sh

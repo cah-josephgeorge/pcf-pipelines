@@ -141,8 +141,8 @@ jobs:
     params:
       PEM: {{PEM}}
       ERT_DOMAIN: {{ERT_DOMAIN}}
-      DB_AWS_SERVICE_BROKER_USERNAME: {{db_aws_service_broker_username}}
-      DB_AWS_SERVICE_BROKER_PASSWORD: {{db_aws_service_broker_password}}
+      db_aws_service_broker_username: {{db_aws_service_broker_username}}
+      db_aws_service_broker_password: {{db_aws_service_broker_password}}
 
   - task: configure-json
     file: pcf-pipelines/install-aws-service-broker/tasks/configure-json/task.yml
@@ -166,7 +166,16 @@ jobs:
       pcf_opsman_admin: {{OPSMAN_USER}}
       pcf_opsman_admin_passwd: {{OPSMAN_PASSWORD}}
 
-  - task: disable-errands
+  - task: disable-ert-errands
+    file: pcf-pipelines/tasks/disable-errands/task.yml
+    params:
+      PRODUCT_NAME: cf
+      OPSMAN_URI: {{OPSMAN_URI}}
+      OPSMAN_USERNAME: {{OPSMAN_USER}}
+      OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
+      ERRANDS_TO_DISABLE: {{ert_errands_to_disable}}
+
+  - task: disable-aws-errands
     file: pcf-pipelines/tasks/disable-errands/task.yml
     params:
       PRODUCT_NAME: aws-services

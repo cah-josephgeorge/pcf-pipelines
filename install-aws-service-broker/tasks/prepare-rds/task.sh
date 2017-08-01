@@ -19,7 +19,7 @@ popd
 
 cat > databases.sql <<EOF
 CREATE DATABASE IF NOT EXISTS aws_service_broker;
-GRANT ALL ON locket.* TO '$DB_AWSSB_USERNAME'@'%' IDENTIFIED BY '$DB_AWSSB_PASSWORD';
+GRANT ALL ON aws_service_broker.* TO '${db_aws_service_broker_username}'@'%' IDENTIFIED BY '${db_aws_service_broker_password}';
 EOF
 
 scp -i pcf.pem -o StrictHostKeyChecking=no databases.sql ubuntu@opsman.${ERT_DOMAIN}:/tmp/.
