@@ -28,8 +28,8 @@ resources:
 - name: pcf-pipelines
   type: git
   source:
-    uri: git@github.com:pivotal-cf/pcf-pipelines.git
-    branch: master
+    uri: git@github.com:cah-josephgeorge/pcf-pipelines.git
+    branch: fuse
     private_key: {{git_private_key}}
 
 - name: pivnet-opsmgr
@@ -59,7 +59,7 @@ jobs:
   serial_groups: [terraform]
   plan:
   - aggregate:
-    - get: pcf-pipelines 
+    - get: pcf-pipelines
     - get: terraform-state
     - get: pivnet-opsmgr
       params:
@@ -118,9 +118,13 @@ jobs:
       TF_VAR_rds_subnet_cidr_az2: {{TF_VAR_rds_subnet_cidr_az2}}
       TF_VAR_rds_subnet_cidr_az3: {{TF_VAR_rds_subnet_cidr_az3}}
       TF_VAR_opsman_ip_az1: {{TF_VAR_opsman_ip_az1}}
+      TF_VAR_opsman_public_ip_az1: {{TF_VAR_opsman_public_ip_az1}}
       TF_VAR_nat_ip_az1: {{TF_VAR_nat_ip_az1}}
       TF_VAR_nat_ip_az2: {{TF_VAR_nat_ip_az2}}
       TF_VAR_nat_ip_az3: {{TF_VAR_nat_ip_az3}}
+      TF_VAR_nat_public_ip_az1: {{TF_VAR_nat_public_ip_az1}}
+      TF_VAR_nat_public_ip_az2: {{TF_VAR_nat_public_ip_az2}}
+      TF_VAR_nat_public_ip_az3: {{TF_VAR_nat_public_ip_az3}}
       OPSMAN_ALLOW_SSH_CIDR_RANGES: {{opsman_allow_ssh_cidr_ranges}}
       OPSMAN_ALLOW_HTTPS_CIDR_RANGES: {{opsman_allow_https_cidr_ranges}}
     ensure:
@@ -132,9 +136,8 @@ jobs:
   serial_groups: [opsman]
   plan:
   - aggregate:
-    - get: pcf-pipelines 
+    - get: pcf-pipelines
     - get: terraform-state
-      trigger: true
       passed: [create-infrastructure]
   - task: configure-opsman-auth
     file: pcf-pipelines/install-pcf/aws/tasks/config-opsman/task.yml
@@ -167,7 +170,6 @@ jobs:
   - aggregate:
     - get: pcf-pipelines
     - get: terraform-state
-      trigger: true
       passed: [configure-director]
   - task: deploy-director
     file: pcf-pipelines/install-pcf/aws/tasks/deploy-director/task.yml
@@ -180,14 +182,13 @@ jobs:
   serial_groups: [opsman]
   plan:
   - aggregate:
-    - get: pcf-pipelines 
+    - get: pcf-pipelines
     - get: pivnet-product
       resource: pivnet-elastic-runtime
       params:
         globs:
         - "*pivotal"
     - get: terraform-state
-      trigger: true
       passed: [deploy-director]
   - task: upload-tile
     file: pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
@@ -211,9 +212,8 @@ jobs:
   serial_groups: [opsman]
   plan:
   - aggregate:
-    - get: pcf-pipelines 
+    - get: pcf-pipelines
     - get: terraform-state
-      trigger: true
       passed: [upload-ert]
 
   - task: prepare-rds
@@ -303,6 +303,16 @@ jobs:
       db_locket_password: {{db_locket_password}}
       db_silk_username: {{db_silk_username}}
       db_silk_password: {{db_silk_password}}
+      USER_STORE: {{user_store}}
+      LDAP_URL: {{ldap_url}}
+      LDAP_USER: {{ldap_user}}
+      LDAP_PASSWORD: {{ldap_password}}
+      LDAP_SEARCH_BASE: {{ldap_search_base}}
+      LDAP_SEARCH_FILTER: {{ldap_search_filter}}
+      LDAP_GROUP_SEARCH_BASE: {{ldap_group_search_base}}
+      LDAP_GROUP_SEARCH_FILTER: {{ldap_group_search_filter}}
+      LDAP_REFERRALS: {{ldap_referrals}}
+
 
   - task: configure-ert
     file: pcf-pipelines/tasks/install-ert/configure-ert/task.yml
