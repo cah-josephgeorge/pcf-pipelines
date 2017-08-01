@@ -8,7 +8,6 @@ image_resource:
 inputs:
   - name: pcf-pipelines
   - name: terraform-state
-  - name: ami
 outputs:
   - name: terraform-state-output
 params:
