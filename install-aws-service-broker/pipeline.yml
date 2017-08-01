@@ -154,8 +154,9 @@ jobs:
       pcf_az_1: {{TF_VAR_az1}}
       pcf_az_2: {{TF_VAR_az2}}
       pcf_az_3: {{TF_VAR_az3}}
-      terraform_prefix: {{terraform_prefix}}
       S3_ENDPOINT: {{S3_ENDPOINT}}
+      db_aws_service_broker_username: {{db_aws_service_broker_username}}
+      db_aws_service_broker_password: {{db_aws_service_broker_password}}
 
   - task: configure-service-broker
     file: pcf-pipelines/install-aws-service-broker/tasks/configure-service-broker/task.yml
