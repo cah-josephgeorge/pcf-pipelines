@@ -1,0 +1,82 @@
+{
+  "networks_and_azs": {
+    "networks_and_azs": {
+      "singleton_availability_zone": {
+        "name": "{{pcf_az_1}}"
+      },
+      "other_availability_zones": [
+        {
+          "name": "{{pcf_az_1}}"
+        },
+        {
+          "name": "{{pcf_az_2}}"
+        },
+        {
+          "name": "{{pcf_az_3}}"
+        }
+      ],
+      "network": {
+        "name": "services"
+      }
+    }
+  },
+  "properties": {
+    "properties": {
+      ".properties.aws_access_key_id": {
+        "value": "keyid"
+      },
+      ".properties.aws_secret_access_key": {
+        "value": {
+          "secret": "secretkey"
+        }
+      },
+      ".properties.aws_default_region": {
+        "value": "us-east-1"
+      },
+      ".properties.broker_policy_name": {
+        "value": "PCFInstallationPolicy"
+      },
+      ".properties.backing_db_selector": {
+        "value": "External MySQL"
+      },
+      ".properties.backing_db_selector.external_mysql.db_username": {
+        "value": "name"
+      },
+      ".properties.backing_db_selector.external_mysql.db_password": {
+        "value": {
+          "secret": "password"
+        }
+      },
+      ".properties.backing_db_selector.external_mysql.db_host": {
+        "value": "0.0.0.0"
+      },
+      ".properties.backing_db_selector.external_mysql.db_port": {
+        "value": 3306
+      },
+      ".properties.backing_db_selector.external_mysql.db_name": {
+        "value": "aws-service-broker"
+      },
+      ".properties.db_ssl_selector": {
+        "value": "Disabled"
+      },
+      ".properties.rds_postgres_public": {
+        "value": true
+      },
+      ".properties.rds_mysql_public": {
+        "value": true
+      },
+      ".properties.rds_sqlserver_public": {
+        "value": false
+      },
+      ".properties.rds_mariadb_public": {
+        "value": false
+      },
+      ".properties.rds_aurora_public": {
+        "value": false
+      },
+      ".properties.rds_oracle_public": {
+        "value": false
+      }
+    }
+  }
+}

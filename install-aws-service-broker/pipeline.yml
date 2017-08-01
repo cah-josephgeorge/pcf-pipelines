@@ -17,6 +17,16 @@ resources:
     region_name: {{S3_REGION}}
     versioned_file: {{S3_TFSTATE}}
 
+- name: pcf-terraform-state
+  type: s3
+  source:
+    disable_ssl: false
+    access_key_id: {{TF_VAR_aws_access_key}}
+    secret_access_key: {{TF_VAR_aws_secret_key}}
+    bucket: {{S3_OUTPUT_BUCKET}}
+    region_name: {{S3_REGION}}
+    versioned_file: terraform.tfstate
+
 - name: pivnet-aws-service-broker
   type: pivnet
   check_every: 4h
@@ -115,7 +125,7 @@ jobs:
       OPSMAN_URI: {{OPSMAN_URI}}
       OPSMAN_USERNAME: {{OPSMAN_USER}}
       OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
-      PRODUCT_NAME: cf
+      PRODUCT_NAME: aws-services
 
 - name: deploy-aws
   serial_groups: [opsman]
@@ -123,11 +133,19 @@ jobs:
   - aggregate:
     - get: pcf-pipelines
     - get: terraform-state
-      trigger: true
       passed: [upload-aws]
+    - get: pcf-terraform-state
+
+  - task: prepare-rds
+    file: pcf-pipelines/install-aws-service-broker/tasks/prepare-rds/task.yml
+    params:
+      PEM: {{PEM}}
+      ERT_DOMAIN: {{ERT_DOMAIN}}
+      DB_AWS_SERVICE_BROKER_USERNAME: {{db_aws_service_broker_username}}
+      DB_AWS_SERVICE_BROKER_PASSWORD: {{db_aws_service_broker_password}}
 
   - task: configure-json
-    file: pcf-pipelines/tasks/install-aws/configure-json/task.yml
+    file: pcf-pipelines/install-aws-service-broker/configure-json/task.yml
     params:
       pcf_iaas: aws
       pcf_ert_domain: {{ERT_DOMAIN}}

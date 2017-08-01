@@ -1,0 +1,17 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: czero/cflinuxfs2
+inputs:
+  - name: pcf-pipelines
+  - name: pcf-terraform-state
+params:
+  PEM:
+  ERT_DOMAIN:
+  DB_AWS_SERVICE_BROKER_USERNAME:
+  DB_AWS_SERVICE_BROKER_PASSWORD:
+run:
+  path: pcf-pipelines/install-aws-service-broker/tasks/prepare-rds/task.sh
