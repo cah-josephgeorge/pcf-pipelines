@@ -58,7 +58,7 @@ echo "Deploying AWS Service Broker @ https://opsman.$pcf_ert_domain ..."
 echo "=============================================================================================="
 # Get cf Product Guid
 guid_cf=$(fn_om_linux_curl "GET" "/api/v0/staged/products" \
-            | jq --raw-output '.[] | select(.type == "cf") | .guid' | grep "cf-.*")
+            | jq --raw-output '.[] | select(.type == "aws-services") | .guid' | grep "aws-services-.*")
 
 echo "=============================================================================================="
 echo "Found AWS Service Broker Deployment with guid of ${guid_cf}"
