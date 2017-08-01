@@ -146,10 +146,6 @@ cat > cert_filter <<-'EOF'
   .properties.properties.".properties.networking_point_of_entry.external_ssl.ssl_rsa_certificate".value = {
     "cert_pem": $cert_pem,
     "private_key_pem": $private_key_pem
-  } |
-  .properties.properties.".uaa.service_provider_key_credentials".value = {
-    "cert_pem": $saml_cert_pem,
-    "private_key_pem": $saml_key_pem
   }
 EOF
 
