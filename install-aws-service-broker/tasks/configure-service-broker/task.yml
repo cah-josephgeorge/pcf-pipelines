@@ -12,7 +12,7 @@ inputs:
   - name: json_file
 
 run:
-  path: pcf-pipelines/tasks/install-ert/configure-ert/task.sh
+  path: pcf-pipelines/install-aws-service-broker/tasks/configure-service-broker/task.sh
 
 params:
   pcf_iaas:
