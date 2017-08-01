@@ -180,7 +180,7 @@
         "value": "{{s3_endpoint}}"
       },
       ".push-apps-manager.company_name": {
-        "value": "pcf-aws"
+        "value": "FUSE By Cardinal"
       },
       ".properties.syslog_host": {
         "value": "{{syslog_host}}"
