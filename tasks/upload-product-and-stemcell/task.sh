@@ -18,22 +18,23 @@ STEMCELL_VERSION=$(
     '
 )
 
-STEMCELL_PLUG=stemcells
-STEMCELL_PRODUCT_TYPE=$(
-  cat ./pivnet-product/metadata.json |
-  jq --raw-output \
+set +e
+cat ./pivnet-product/metadata.json | jq -e \
     '
     [
       .Dependencies[]
       | select(.Release.Product.Name | contains("Stemcells for PCF (Windows)"))
       | .Release.Version
     ] | sort | last // empty
-    '
-)
+    ' > /dev/null
 
-if [ -z "${STEMCELL_PRODUCT_TYPE}" ]; then
+if [ $? -eq 0 ]; then
   STEMCELL_PLUG=stemcells-windows-server
+else
+  STEMCELL_PLUG=stemcells
 fi
+
+set -e
 
 if [ -n "$STEMCELL_VERSION" ]; then
   diagnostic_report=$(
