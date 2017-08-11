@@ -32,8 +32,8 @@ resources:
 - name: pcf-pipelines
   type: git
   source:
-    uri: git@github.com:pivotal-cf/pcf-pipelines.git
-    branch: master
+    uri: git@github.com:cah-josephgeorge/pcf-pipelines.git
+    branch: fuse
     private_key: {{git_private_key}}
 
 - name: schedule
