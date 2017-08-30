@@ -31,7 +31,6 @@ resources:
 
 - name: tile
   type: pivnet
-  check_every: {{pivnet_poll_interval}}
   source:
     api_token: {{pivnet_token}}
     product_slug: {{product_slug}}
@@ -55,7 +54,7 @@ jobs:
   - get: tile
     params: { globs: [] }
 
-- name: upgrade-tile
+- name: upload-and-stage-tile
   plan:
   - aggregate:
     - get: pcf-pipelines
@@ -72,13 +71,13 @@ jobs:
     params:
       OPSMAN_USERNAME: {{opsman_admin_username}}
       OPSMAN_PASSWORD: {{opsman_admin_password}}
-      OPSMAN_URI: {{opsman_uri}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
 
   - task: upload-tile-and-stemcell
     file: pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
     params:
       IAAS: {{iaas_type}}
-      OPS_MGR_HOST: {{opsman_uri}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPS_MGR_USR: {{opsman_admin_username}}
       OPS_MGR_PWD: {{opsman_admin_password}}
       PIVNET_API_TOKEN: {{pivnet_token}}
@@ -90,13 +89,23 @@ jobs:
     params:
       OPSMAN_USERNAME: {{opsman_admin_username}}
       OPSMAN_PASSWORD: {{opsman_admin_password}}
-      OPSMAN_URI: {{opsman_uri}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       PRODUCT_NAME: {{product_name}}
 
 
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pivnet-product
+      resource: tile
+      passed: [ upload-and-stage-tile ]
+      trigger: true
+      params:
+        globs: [ ]
   - task: apply-changes
     file: pcf-pipelines/tasks/apply-changes/task.yml
     params:
       OPSMAN_USERNAME: {{opsman_admin_username}}
       OPSMAN_PASSWORD: {{opsman_admin_password}}
-      OPSMAN_URI: {{opsman_uri}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}

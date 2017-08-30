@@ -16,23 +16,12 @@ set -eu
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-function main() {
+version=$(jq --raw-output '.Release.Version' < ./pivnet-product/metadata.json)
 
-  local cwd
-  cwd="${1}"
-
-  local version
-  pushd "${cwd}/pivnet-product"
-    version="$(unzip -p *.pivotal 'metadata/*.yml' | grep 'product_version:' | cut -d ':' -f 2 | tr -d ' ' | tr -d "'")"
-  popd
-
-  om-linux --target "https://${OPSMAN_URI}" \
-     --skip-ssl-validation \
-     --username "${OPSMAN_USERNAME}" \
-     --password "${OPSMAN_PASSWORD}" \
-     stage-product \
-     --product-name "${PRODUCT_NAME}" \
-     --product-version "${version}"
-}
-
-main "${PWD}"
+om-linux --target "https://${OPSMAN_DOMAIN_OR_IP_ADDRESS}" \
+   --skip-ssl-validation \
+   --username "${OPSMAN_USERNAME}" \
+   --password "${OPSMAN_PASSWORD}" \
+   stage-product \
+   --product-name "${PRODUCT_NAME}" \
+   --product-version "${version}"

@@ -1,11 +1,11 @@
 #!/bin/bash
 #mglynn@pivotal.io
 
-set -e
+set -eu
 
 SYS_DOMAIN=$1
 APP_DOMAIN=$2
-VIP=$3
+VIP=${3:-""}
 
 SSL_FILE=sslconf-${SYS_DOMAIN}.conf
 

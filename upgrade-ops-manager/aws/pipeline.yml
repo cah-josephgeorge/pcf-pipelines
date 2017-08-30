@@ -22,7 +22,6 @@ resource_types:
 resources:
 - name: pivnet-opsmgr
   type: pivnet
-  check_every: {{check_new_opsman_every}}
   source:
     api_token: {{pivnet_token}}
     product_slug: ops-manager
@@ -69,7 +68,7 @@ jobs:
     params:
       OPSMAN_USERNAME: {{opsman_admin_username}}
       OPSMAN_PASSWORD: {{opsman_admin_password}}
-      OPSMAN_URI: {{opsman_uri}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
 
   - aggregate:
     - task: export-opsmgr-settings
@@ -77,14 +76,14 @@ jobs:
       params:
         OPSMAN_USERNAME: {{opsman_admin_username}}
         OPSMAN_PASSWORD: {{opsman_admin_password}}
-        OPSMAN_URI: {{opsman_uri}}
+        OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
         OPSMAN_SETTINGS_FILENAME: installation.zip
     - task: exported-opsmgr-diagnostic-report
       file: pcf-pipelines/tasks/export-opsmgr-diagnostic-report/task.yml
       params:
         OPSMAN_USERNAME: {{opsman_admin_username}}
         OPSMAN_PASSWORD: {{opsman_admin_password}}
-        OPSMAN_URI: {{opsman_uri}}
+        OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
 
   - task: create-cliaas-config
     file: pcf-pipelines/upgrade-ops-manager/aws/tasks/create-cliaas-config/task.yml
@@ -104,7 +103,7 @@ jobs:
     params:
       OPSMAN_USERNAME: {{opsman_admin_username}}
       OPSMAN_PASSWORD: {{opsman_admin_password}}
-      OPSMAN_URI: {{opsman_uri}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPSMAN_SETTINGS_FILENAME: installation.zip
       OPSMAN_PASSPHRASE: {{opsman_passphrase}}
 
@@ -119,11 +118,11 @@ jobs:
     params:
       OPSMAN_USERNAME: {{opsman_admin_username}}
       OPSMAN_PASSWORD: {{opsman_admin_password}}
-      OPSMAN_URI: {{opsman_uri}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
 
   - task: apply-changes
     file: pcf-pipelines/tasks/apply-changes/task.yml
     params:
       OPSMAN_USERNAME: {{opsman_admin_username}}
       OPSMAN_PASSWORD: {{opsman_admin_password}}
-      OPSMAN_URI: {{opsman_uri}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}

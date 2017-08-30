@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eu
 
 root=$PWD
 
@@ -9,10 +9,10 @@ export GOOGLE_REGION=${GCP_REGION}
 
 source "${root}/pcf-pipelines/functions/check_opsman_available.sh"
 
-opsman_available=$(check_opsman_available $OPSMAN_URI)
+opsman_available=$(check_opsman_available $OPSMAN_DOMAIN_OR_IP_ADDRESS)
 if [[ $opsman_available == "available" ]]; then
   om-linux \
-    --target https://$OPSMAN_URI \
+    --target https://$OPSMAN_DOMAIN_OR_IP_ADDRESS \
     --skip-ssl-validation \
     --username $OPSMAN_USERNAME \
     --password $OPSMAN_PASSWORD \
@@ -27,12 +27,12 @@ terraform destroy -force \
   -var "gcp_zone_1=dontcare" \
   -var "gcp_zone_2=dontcare" \
   -var "gcp_zone_3=dontcare" \
+  -var "gcp_storage_bucket_location=dontcare" \
   -var "prefix=dontcare" \
   -var "pcf_opsman_image_name=dontcare" \
   -var "pcf_ert_domain=dontcare" \
   -var "pcf_ert_ssl_cert=dontcare" \
   -var "pcf_ert_ssl_key=dontcare" \
-  -var "ert_sql_instance_name=dontcare" \
   -var "opsman_allow_cidr=dontcare" \
   -var "db_app_usage_service_username=dontcare" \
   -var "db_app_usage_service_password=dontcare" \

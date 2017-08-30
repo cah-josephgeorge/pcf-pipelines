@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eu
 
 root=$PWD
 
@@ -8,8 +8,6 @@ pcf_opsman_bucket_path=$(grep -i 'us:.*.tar.gz' pivnet-opsmgr/*GCP.yml | cut -d'
 
 # ops-manager-us/pcf-gcp-1.9.2.tar.gz -> opsman-pcf-gcp-1-9-2
 pcf_opsman_image_name=$(echo $pcf_opsman_bucket_path | sed 's%.*/\(.*\).tar.gz%opsman-\1%' | sed 's/\./-/g')
-
-ert_sql_instance_name="${GCP_RESOURCE_PREFIX}-sql-$(cat /proc/sys/kernel/random/uuid)"
 
 pcf_ert_ssl_cert=$PCF_ERT_SSL_CERT
 pcf_ert_ssl_key=$PCF_ERT_SSL_KEY
@@ -31,12 +29,12 @@ terraform plan \
   -var "gcp_zone_1=${GCP_ZONE_1}" \
   -var "gcp_zone_2=${GCP_ZONE_2}" \
   -var "gcp_zone_3=${GCP_ZONE_3}" \
+  -var "gcp_storage_bucket_location=${GCP_STORAGE_BUCKET_LOCATION}" \
   -var "prefix=${GCP_RESOURCE_PREFIX}" \
   -var "pcf_opsman_image_name=${pcf_opsman_image_name}" \
   -var "pcf_ert_domain=${PCF_ERT_DOMAIN}" \
   -var "pcf_ert_ssl_cert=${pcf_ert_ssl_cert}" \
   -var "pcf_ert_ssl_key=${pcf_ert_ssl_key}" \
-  -var "ert_sql_instance_name=${ert_sql_instance_name}" \
   -var "db_app_usage_service_username=${DB_APP_USAGE_SERVICE_USERNAME}" \
   -var "db_app_usage_service_password=${DB_APP_USAGE_SERVICE_PASSWORD}" \
   -var "db_autoscale_username=${DB_AUTOSCALE_USERNAME}" \
@@ -63,7 +61,7 @@ terraform plan \
   -var "db_silk_password=${DB_SILK_PASSWORD}" \
   -out terraform.tfplan \
   -state terraform-state/terraform.tfstate \
-  pcf-pipelines/install-pcf/gcp/terraform/$gcp_pcf_terraform_template
+  pcf-pipelines/install-pcf/gcp/terraform
 
 terraform apply \
   -state-out $root/create-infrastructure-output/terraform.tfstate \

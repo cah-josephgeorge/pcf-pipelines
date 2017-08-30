@@ -1,3 +1,10 @@
+resource_types:
+- name: curl
+  type: docker-image
+  source:
+    repository: pivotalservices/concourse-curl-resource
+    tag: latest
+
 resources:
 - name: pcf-pipelines
   type: git
@@ -49,6 +56,8 @@ resources:
     bucket: cf-cli-releases
     regexp: releases/v([\d\.]+)/cf-cli_.*_linux_x86-64.tgz
     region_name: us-west-1
+    access_key_id: {{images_pipeline_aws_access_key_id}}
+    secret_access_key: {{images_pipeline_aws_secret_access_key}}
 
 - name: cliaas
   type: github-release
@@ -72,11 +81,13 @@ resources:
     access_token: {{images_pipeline_github_token}}
 
 - name: om-beta
-  type: github-release
+  type: s3
   source:
-    user: c0-ops
-    repository: om
-    access_token: {{images_pipeline_github_token}}
+    bucket: czero-resources
+    regexp: om-linux-v(.*)
+    region_name: us-east-1
+    access_key_id: {{images_pipeline_aws_access_key_id}}
+    secret_access_key: {{images_pipeline_aws_secret_access_key}}
 
 - name: stemcell-downloader
   type: github-release
@@ -92,6 +103,18 @@ resources:
     repository: concourse-pipeline-steamroller
     access_token: {{images_pipeline_github_token}}
 
+- name: terraform
+  type: curl
+  source:
+    url: https://releases.hashicorp.com/terraform/0.9.11/terraform_0.9.11_linux_amd64.zip
+    filename: terraform.zip
+
+- name: jq
+  type: curl
+  source:
+    url: https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
+    filename: jq
+
 jobs:
 - name: build-pcf-pipelines-image
   serial_groups: [pcf-pipelines-image]
@@ -102,7 +125,7 @@ jobs:
     - get: cflinuxfs2
       trigger: true
       params: {save: true}
-    - get: yaml-patch 
+    - get: yaml-patch
       params: {globs: ["*linux*"]}
     - get: om
       params: {globs: ["*linux*"]}
@@ -120,6 +143,8 @@ jobs:
       params: {globs: ["*linux*"]}
     - get: steamroll
       params: {globs: ["*linux*"]}
+    - get: terraform
+    - get: jq
 
   - task: prepare-workspace
     config:
@@ -130,7 +155,7 @@ jobs:
       inputs:
       - name: pcf-pipelines
       - name: om
-      - name: yaml-patch 
+      - name: yaml-patch
       - name: cf-cli-tarball
       - name: cliaas
       - name: pivnet-cli
@@ -138,6 +163,8 @@ jobs:
       - name: om-beta
       - name: stemcell-downloader
       - name: steamroll
+      - name: terraform
+      - name: jq
       outputs:
       - name: workspace
       run:
@@ -145,35 +172,28 @@ jobs:
         args:
         - -c
         - |
-          cp pcf-pipelines/ci/Dockerfile workspace
+          cp \
+            om/om-linux \
+            yaml-patch/yaml_patch_linux \
+            cliaas/cliaas-linux \
+            jq/jq \
+            workspace
 
-          cp om/om-linux workspace
-          chmod +x workspace/om-linux
-
-          cp yaml-patch/yaml_patch_linux workspace
-          chmod +x workspace/yaml_patch_linux
+          cp om-beta/om-linux workspace/om-linux-beta
+          cp pivnet-cli/pivnet-linux-* workspace/pivnet-cli
+          cp stemcell-downloader/stemcell-downloader-linux workspace/stemcell-downloader
+          cp steamroll/steamroll_linux workspace/steamroll
 
           tar -C workspace -xf cf-cli-tarball/*.tgz cf
-          chmod +x workspace/cf
-
-          cp cliaas/cliaas-linux workspace
-          chmod +x workspace/cliaas-linux
-
-          cp pivnet-cli/pivnet-linux-* workspace/pivnet-cli
-          chmod +x workspace/pivnet-cli
 
           gunzip govc/govc_linux_amd64.gz
           cp govc/govc_linux_amd64 workspace/govc
-          chmod +x workspace/govc
 
-          cp om-beta/om-linux workspace/om-linux-beta
-          chmod +x workspace/om-linux-beta
+          unzip -d workspace terraform/terraform.zip
 
-          cp stemcell-downloader/stemcell-downloader-linux workspace/stemcell-downloader
-          chmod +x workspace/stemcell-downloader
+          chmod +x workspace/*
 
-          cp steamroll/steamroll_linux workspace/steamroll
-          chmod +x workspace/steamroll
+          cp pcf-pipelines/ci/Dockerfile workspace
 
   - put: pcf-pipelines-image-rc
     params:

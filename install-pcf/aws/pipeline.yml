@@ -18,7 +18,6 @@ resources:
 
 - name: pivnet-elastic-runtime
   type: pivnet
-  check_every: 4h
   source:
     api_token: {{pivnet_token}}
     product_slug: elastic-runtime
@@ -34,7 +33,6 @@ resources:
 
 - name: pivnet-opsmgr
   type: pivnet
-  check_every: 4h
   source:
     api_token: {{pivnet_token}}
     product_slug: ops-manager
@@ -132,6 +130,36 @@ jobs:
       params:
         file: terraform-state-output/terraform.tfstate
 
+  - task: prepare-rds
+    file: pcf-pipelines/install-pcf/aws/tasks/prepare-rds/task.yml
+    params:
+      PEM: {{PEM}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      DB_APP_USAGE_SERVICE_USERNAME: {{db_app_usage_service_username}}
+      DB_APP_USAGE_SERVICE_PASSWORD: {{db_app_usage_service_password}}
+      DB_AUTOSCALE_USERNAME: {{db_autoscale_username}}
+      DB_AUTOSCALE_PASSWORD: {{db_autoscale_password}}
+      DB_DIEGO_USERNAME: {{db_diego_username}}
+      DB_DIEGO_PASSWORD: {{db_diego_password}}
+      DB_NOTIFICATIONS_USERNAME: {{db_notifications_username}}
+      DB_NOTIFICATIONS_PASSWORD: {{db_notifications_password}}
+      DB_ROUTING_USERNAME: {{db_routing_username}}
+      DB_ROUTING_PASSWORD: {{db_routing_password}}
+      DB_UAA_USERNAME: {{db_uaa_username}}
+      DB_UAA_PASSWORD: {{db_uaa_password}}
+      DB_CCDB_USERNAME: {{db_ccdb_username}}
+      DB_CCDB_PASSWORD: {{db_ccdb_password}}
+      DB_ACCOUNTDB_USERNAME: {{db_accountdb_username}}
+      DB_ACCOUNTDB_PASSWORD: {{db_accountdb_password}}
+      DB_NETWORKPOLICYSERVERDB_USERNAME: {{db_networkpolicyserverdb_username}}
+      DB_NETWORKPOLICYSERVERDB_PASSWORD: {{db_networkpolicyserverdb_password}}
+      DB_NFSVOLUMEDB_USERNAME: {{db_nfsvolumedb_username}}
+      DB_NFSVOLUMEDB_PASSWORD: {{db_nfsvolumedb_password}}
+      DB_LOCKET_USERNAME: {{db_locket_username}}
+      DB_LOCKET_PASSWORD: {{db_locket_password}}
+      DB_SILK_USERNAME: {{db_silk_username}}
+      DB_SILK_PASSWORD: {{db_silk_password}}
+
 - name: configure-director
   serial_groups: [opsman]
   plan:
@@ -139,12 +167,13 @@ jobs:
     - get: pcf-pipelines
     - get: terraform-state
       passed: [create-infrastructure]
-  - task: configure-opsman-auth
-    file: pcf-pipelines/install-pcf/aws/tasks/config-opsman/task.yml
+  - task: config-opsman-auth
+    file: pcf-pipelines/tasks/config-opsman/task.yml
     params:
-      ERT_DOMAIN: {{ERT_DOMAIN}}
-      OPSMAN_USER: {{OPSMAN_USER}}
-      OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPS_MGR_USR: {{OPSMAN_USER}}
+      OPS_MGR_PWD: {{OPSMAN_PASSWORD}}
+      OM_DECRYPTION_PWD: {{OPSMAN_PASSWORD}}
   - task: configure-director
     file: pcf-pipelines/install-pcf/aws/tasks/config-director/task.yml
     params:
@@ -172,11 +201,11 @@ jobs:
     - get: terraform-state
       passed: [configure-director]
   - task: deploy-director
-    file: pcf-pipelines/install-pcf/aws/tasks/deploy-director/task.yml
+    file: pcf-pipelines/tasks/apply-changes/task.yml
     params:
-      pcf_ert_domain: {{ERT_DOMAIN}}
-      pcf_opsman_admin: {{OPSMAN_USER}}
-      pcf_opsman_admin_passwd: {{OPSMAN_PASSWORD}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_USERNAME: {{OPSMAN_USER}}
+      OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
 
 - name: upload-ert
   serial_groups: [opsman]
@@ -193,7 +222,7 @@ jobs:
   - task: upload-tile
     file: pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
     params:
-      OPS_MGR_HOST: {{OPSMAN_URI}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPS_MGR_USR: {{OPSMAN_USER}}
       OPS_MGR_PWD: {{OPSMAN_PASSWORD}}
       PIVNET_API_TOKEN: {{pivnet_token}}
@@ -203,7 +232,7 @@ jobs:
   - task: stage-tile
     file: pcf-pipelines/tasks/stage-product/task.yml
     params:
-      OPSMAN_URI: {{OPSMAN_URI}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPSMAN_USERNAME: {{OPSMAN_USER}}
       OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
       PRODUCT_NAME: cf
@@ -216,49 +245,18 @@ jobs:
     - get: terraform-state
       passed: [upload-ert]
 
-  - task: prepare-rds
-    file: pcf-pipelines/install-pcf/aws/tasks/prepare-rds/task.yml
-    params:
-      PEM: {{PEM}}
-      ERT_DOMAIN: {{ERT_DOMAIN}}
-      DB_APP_USAGE_SERVICE_USERNAME: {{db_app_usage_service_username}}
-      DB_APP_USAGE_SERVICE_PASSWORD: {{db_app_usage_service_password}}
-      DB_AUTOSCALE_USERNAME: {{db_autoscale_username}}
-      DB_AUTOSCALE_PASSWORD: {{db_autoscale_password}}
-      DB_DIEGO_USERNAME: {{db_diego_username}}
-      DB_DIEGO_PASSWORD: {{db_diego_password}}
-      DB_NOTIFICATIONS_USERNAME: {{db_notifications_username}}
-      DB_NOTIFICATIONS_PASSWORD: {{db_notifications_password}}
-      DB_ROUTING_USERNAME: {{db_routing_username}}
-      DB_ROUTING_PASSWORD: {{db_routing_password}}
-      DB_UAA_USERNAME: {{db_uaa_username}}
-      DB_UAA_PASSWORD: {{db_uaa_password}}
-      DB_CCDB_USERNAME: {{db_ccdb_username}}
-      DB_CCDB_PASSWORD: {{db_ccdb_password}}
-      DB_ACCOUNTDB_USERNAME: {{db_accountdb_username}}
-      DB_ACCOUNTDB_PASSWORD: {{db_accountdb_password}}
-      DB_NETWORKPOLICYSERVERDB_USERNAME: {{db_networkpolicyserverdb_username}}
-      DB_NETWORKPOLICYSERVERDB_PASSWORD: {{db_networkpolicyserverdb_password}}
-      DB_NFSVOLUMEDB_USERNAME: {{db_nfsvolumedb_username}}
-      DB_NFSVOLUMEDB_PASSWORD: {{db_nfsvolumedb_password}}
-      DB_LOCKET_USERNAME: {{db_locket_username}}
-      DB_LOCKET_PASSWORD: {{db_locket_password}}
-      DB_SILK_USERNAME: {{db_silk_username}}
-      DB_SILK_PASSWORD: {{db_silk_password}}
-
-  - task: configure-json
-    file: pcf-pipelines/tasks/install-ert/configure-json/task.yml
+  - task: configure-ert
+    file: pcf-pipelines/tasks/configure-ert/task.yml
     params:
       pcf_iaas: aws
       pcf_ert_domain: {{ERT_DOMAIN}}
-      pcf_opsman_admin: {{OPSMAN_USER}}
-      pcf_opsman_admin_passwd: {{OPSMAN_PASSWORD}}
+      OPS_MGR_USR: {{OPSMAN_USER}}
+      OPS_MGR_PWD: {{OPSMAN_PASSWORD}}
       pcf_ert_ssl_cert: {{ERT_SSL_CERT}}
       pcf_ert_ssl_key: {{ERT_SSL_KEY}}
       pcf_az_1: {{TF_VAR_az1}}
       pcf_az_2: {{TF_VAR_az2}}
       pcf_az_3: {{TF_VAR_az3}}
-      terraform_template: default
       terraform_prefix: {{terraform_prefix}}
       S3_ENDPOINT: {{S3_ENDPOINT}}
       mysql_monitor_recipient_email: {{mysql_monitor_recipient_email}}
@@ -314,19 +312,11 @@ jobs:
       LDAP_REFERRALS: {{ldap_referrals}}
 
 
-  - task: configure-ert
-    file: pcf-pipelines/tasks/install-ert/configure-ert/task.yml
-    params:
-      pcf_iaas: aws
-      pcf_ert_domain: {{ERT_DOMAIN}}
-      pcf_opsman_admin: {{OPSMAN_USER}}
-      pcf_opsman_admin_passwd: {{OPSMAN_PASSWORD}}
-
   - task: disable-errands
     file: pcf-pipelines/tasks/disable-errands/task.yml
     params:
       PRODUCT_NAME: cf
-      OPSMAN_URI: {{OPSMAN_URI}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPSMAN_USERNAME: {{OPSMAN_USER}}
       OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
       ERRANDS_TO_DISABLE: {{ert_errands_to_disable}}
@@ -334,7 +324,7 @@ jobs:
   - task: deploy-ert
     file: pcf-pipelines/tasks/apply-changes/task.yml
     params:
-      OPSMAN_URI: {{OPSMAN_URI}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPSMAN_USERNAME: {{OPSMAN_USER}}
       OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
 
@@ -351,35 +341,11 @@ jobs:
   - task: wipe
     file: pcf-pipelines/install-pcf/aws/tasks/wipe-env/task.yml
     params:
-      OPSMAN_URI: {{OPSMAN_URI}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPSMAN_USERNAME: {{OPSMAN_USER}}
       OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
-      TF_VAR_aws_access_key: {{TF_VAR_aws_access_key}}
-      TF_VAR_aws_secret_key: {{TF_VAR_aws_secret_key}}
-      TF_VAR_aws_key_name: {{TF_VAR_aws_key_name}}
-      TF_VAR_aws_cert_arn: {{TF_VAR_aws_cert_arn}}
-      TF_VAR_amis_nat: {{TF_VAR_amis_nat}}
-      TF_VAR_aws_region: {{TF_VAR_aws_region}}
-      TF_VAR_az1: {{TF_VAR_az1}}
-      TF_VAR_az2: {{TF_VAR_az2}}
-      TF_VAR_az3: {{TF_VAR_az3}}
-      TF_VAR_route53_zone_id: {{ROUTE_53_ZONE_ID}}
-      TF_VAR_vpc_cidr: {{TF_VAR_vpc_cidr}}
-      TF_VAR_public_subnet_cidr_az1: {{TF_VAR_public_subnet_cidr_az1}}
-      TF_VAR_public_subnet_cidr_az2: {{TF_VAR_public_subnet_cidr_az2}}
-      TF_VAR_public_subnet_cidr_az3: {{TF_VAR_public_subnet_cidr_az3}}
-      TF_VAR_ert_subnet_cidr_az1: {{TF_VAR_ert_subnet_cidr_az1}}
-      TF_VAR_ert_subnet_cidr_az2: {{TF_VAR_ert_subnet_cidr_az2}}
-      TF_VAR_ert_subnet_cidr_az3: {{TF_VAR_ert_subnet_cidr_az3}}
-      TF_VAR_services_subnet_cidr_az1: {{TF_VAR_services_subnet_cidr_az1}}
-      TF_VAR_services_subnet_cidr_az2: {{TF_VAR_services_subnet_cidr_az2}}
-      TF_VAR_services_subnet_cidr_az3: {{TF_VAR_services_subnet_cidr_az3}}
-      TF_VAR_infra_subnet_cidr_az1: {{TF_VAR_infra_subnet_cidr_az1}}
-      TF_VAR_rds_subnet_cidr_az1: {{TF_VAR_rds_subnet_cidr_az1}}
-      TF_VAR_rds_subnet_cidr_az2: {{TF_VAR_rds_subnet_cidr_az2}}
-      TF_VAR_rds_subnet_cidr_az3: {{TF_VAR_rds_subnet_cidr_az3}}
-      OPSMAN_ALLOW_SSH_CIDR_RANGES: {{opsman_allow_ssh_cidr_ranges}}
-      OPSMAN_ALLOW_HTTPS_CIDR_RANGES: {{opsman_allow_https_cidr_ranges}}
+      AWS_ACCESS_KEY_ID: {{TF_VAR_aws_access_key}}
+      AWS_SECRET_ACCESS_KEY: {{TF_VAR_aws_secret_key}}
 
 - name: verify-infrastructure
   serial_groups: [terraform]
@@ -453,3 +419,4 @@ jobs:
       TF_VAR_nat_public_ip_az3: {{TF_VAR_nat_public_ip_az3}}
       OPSMAN_ALLOW_SSH_CIDR_RANGES: {{opsman_allow_ssh_cidr_ranges}}
       OPSMAN_ALLOW_HTTPS_CIDR_RANGES: {{opsman_allow_https_cidr_ranges}}
+

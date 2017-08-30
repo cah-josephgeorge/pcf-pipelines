@@ -14,10 +14,6 @@
 
 # Resource configuration
 
-# Interval to check on new releases from Pivotal Network
-# eg. 2h, 3h45m, 3000s
-check_new_opsman_every: CHANGEME
-
 git_private_key:
 
 # Ops Manager minor version to track
@@ -47,4 +43,4 @@ opsman_passphrase: CHANGEME
 
 # Ops Manager Url
 # eg. https://myopsman.mydomain.com
-opsman_uri: CHANGEME
+opsman_domain_or_ip_address: CHANGEME

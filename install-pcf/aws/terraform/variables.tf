@@ -11,6 +11,7 @@ variable "aws_region" {}
 variable "az1" {}
 variable "az2" {}
 variable "az3" {}
+variable "route53_zone_id" {}
 
 /*
 * used for configuring ingress rules to ops manager vm
