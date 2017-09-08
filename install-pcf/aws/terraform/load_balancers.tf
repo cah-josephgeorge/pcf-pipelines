@@ -33,6 +33,70 @@ resource "aws_elb" "PcfHttpElb" {
   }
 }
 
+resource "aws_alb" "PcfHttpAlb" {
+  name = "${var.prefix}-Pcf-Http-Alb"
+  subnets = ["${aws_subnet.PcfVpcPublicSubnet_az1.id}","${aws_subnet.PcfVpcPublicSubnet_az2.id}","${aws_subnet.PcfVpcPublicSubnet_az3.id}"]
+  security_groups = ["${aws_security_group.PcfHttpElbSg.id}"]
+
+  tags {
+    Name = "${var.prefix}-Pcf Http Alb"
+
+    "fuse:terraform" = "pivotal-sb1"
+    "fuse:product" = "pivotal"
+    "fuse:environment" = "nonprod"
+  }
+}
+
+resource "aws_alb_target_group" "PcfHttpAlbTargetGroup" {
+  name = "${var.prefix}-PcfHttpAlbTargetGroup"
+  port = 80
+  protocol = "HTTP"
+  vpc_id = "${aws_vpc.PcfVpc.id}"
+
+  health_check {
+    path = "/health"
+    port = 8080
+    timeout = 5
+    interval = 30
+    unhealthy_threshold = 2
+    healthy_threshold = 10
+  }
+
+  tags {
+    Name = "${var.prefix}-Pcf Http Alb Target Group"
+
+    "fuse:terraform" = "pivotal-sb1"
+    "fuse:product" = "pivotal"
+    "fuse:environment" = "nonprod"
+  }
+}
+
+resource "aws_alb_listener" "PcfHttpAlbListener443" {
+  load_balancer_arn = "${aws_alb.PcfHttpAlb.arn}"
+  port = 443
+  protocol = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2015-05"
+  certificate_arn   = "${var.aws_cert_arn}"
+
+  default_action {
+    target_group_arn = "${aws_alb_target_group.PcfHttpAlbTargetGroup.arn}"
+    type = "forward"
+  }
+}
+
+resource "aws_alb_listener" "PcfHttpAlbListener4443" {
+  load_balancer_arn = "${aws_alb.PcfHttpAlb.arn}"
+  port = 4443
+  protocol = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2015-05"
+  certificate_arn   = "${var.aws_cert_arn}"
+
+  default_action {
+    target_group_arn = "${aws_alb_target_group.PcfHttpAlbTargetGroup.arn}"
+    type = "forward"
+  }
+}
+
 resource "aws_elb" "PcfSshElb" {
   name = "${var.prefix}-Pcf-Ssh-Elb"
   subnets = ["${aws_subnet.PcfVpcPublicSubnet_az1.id}","${aws_subnet.PcfVpcPublicSubnet_az2.id}","${aws_subnet.PcfVpcPublicSubnet_az3.id}"]

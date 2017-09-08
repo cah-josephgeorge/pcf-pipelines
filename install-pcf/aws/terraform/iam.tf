@@ -168,7 +168,10 @@ data "aws_iam_policy_document" "pcf_iam_rds_role_policy_document" {
         actions = [
                 "elasticloadbalancing:DescribeLoadBalancers",
                 "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
-                "elasticloadbalancing:RegisterInstancesWithLoadBalancer"
+                "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+                "elasticloadbalancing:DescribeTargetGroups",
+                "elasticloadbalancing:RegisterTargets",
+                "elasticloadbalancing:DeregisterTargets"
         ],
         resources = [
             "*"
