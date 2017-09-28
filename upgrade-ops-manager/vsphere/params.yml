@@ -20,6 +20,7 @@ opsman_major_minor_version: ^1\.11\..*$  # Ops Manager minor version to track
 opsman_domain_or_ip_address: http://example.com
 opsman_passphrase: CHANGEME
 pivnet_token: CHANGEME
+# Do not specify with a trailing slash.
 vcenter_url: http://example.com
 vcenter_username: CHANGEME
 vcenter_password: CHANGEME
@@ -35,3 +36,4 @@ dns: CHANGEME #example: 8.8.8.8,8.8.4.4
 ntp: CHANGEME #example: 0.pool.ntp.org,1.pool.ntp.org
 opsman_network: CHANGEME
 git_private_key:
+opsman_disk_type: thin # use thick or thin disk provisioning

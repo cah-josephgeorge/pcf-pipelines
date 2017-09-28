@@ -60,7 +60,7 @@ jobs:
       OM_VM_NETWORK: {{om_vm_network}}
       OM_VM_NAME: {{om_vm_name}}
       OM_RESOURCE_POOL: {{om_resource_pool}}
-      OM_DISK_TYPE: {{om_disk_type}}
+      OPSMAN_DISK_TYPE: {{opsman_disk_type}}
       OM_VM_POWER_STATE: {{om_vm_power_state}}
 
 - name: configure-director
@@ -185,7 +185,7 @@ jobs:
       NO_PROXY: {{company_proxy_domain}}
       OM_IP: {{om_ip}}
 
-- name: deploy-ert
+- name: stage-ert
   plan:
   - aggregate:
     - get: pcf-pipelines
@@ -195,7 +195,7 @@ jobs:
       trigger: true
     - get: pivnet-product
       resource: elastic-runtime
-      params: {globs: ["*.pivotal"]}
+      params: {globs: []}
       passed: [upload-ert]
 
   - task: stage
@@ -205,6 +205,19 @@ jobs:
       OPSMAN_USERNAME: {{opsman_admin_username}}
       OPSMAN_PASSWORD: {{opsman_admin_password}}
       PRODUCT_NAME: cf
+
+- name: deploy-ert
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pcf-ops-manager
+      params: {globs: []}
+      passed: [stage-ert]
+      trigger: true
+    - get: pivnet-product
+      resource: elastic-runtime
+      params: {globs: ["*.pivotal"]}
+      passed: [stage-ert]
 
   - task: configure
     file: pcf-pipelines/tasks/config-ert/task.yml
@@ -301,7 +314,6 @@ jobs:
       LOGGREGATOR_TC_INSTANCES: {{loggregator_traffic_controller_instances}}
       TCP_ROUTER_INSTANCES: {{tcp_router_instances}}
       SYSLOG_ADAPTER_INSTANCES: {{syslog_adapter_instances}}
-      SYSLOG_SCHEDULER_INSTANCES: {{syslog_scheduler_instances}}
       TCP_ROUTER_NSX_SECURITY_GROUP: {{tcp_router_nsx_security_group}}
       TCP_ROUTER_NSX_LB_EDGE_NAME: {{tcp_router_nsx_lb_edge_name}}
       TCP_ROUTER_NSX_LB_POOL_NAME: {{tcp_router_nsx_lb_pool_name}}
@@ -317,6 +329,7 @@ jobs:
       DIEGO_BRAIN_NSX_LB_POOL_NAME: {{diego_brain_nsx_lb_pool_name}}
       DIEGO_BRAIN_NSX_LB_SECURITY_GROUP: {{diego_brain_nsx_lb_security_group}}
       DIEGO_BRAIN_NSX_LB_PORT: {{diego_brain_nsx_lb_port}}
+      HA_PROXY_LB_NAME: ""
 
   - task: disable-errands
     file: pcf-pipelines/tasks/disable-errands/task.yml

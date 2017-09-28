@@ -43,6 +43,13 @@ resources:
     repository: om
     access_token: {{images_pipeline_github_token}}
 
+- name: semver-cli
+  type: github-release
+  source:
+    user: christianang
+    repository: semver-cli
+    access_token: {{images_pipeline_github_token}}
+
 - name: yaml-patch
   type: github-release
   source:
@@ -79,15 +86,6 @@ resources:
     user: vmware
     repository: govmomi
     access_token: {{images_pipeline_github_token}}
-
-- name: om-beta
-  type: s3
-  source:
-    bucket: czero-resources
-    regexp: om-linux-v(.*)
-    region_name: us-east-1
-    access_key_id: {{images_pipeline_aws_access_key_id}}
-    secret_access_key: {{images_pipeline_aws_secret_access_key}}
 
 - name: stemcell-downloader
   type: github-release
@@ -127,6 +125,8 @@ jobs:
       params: {save: true}
     - get: yaml-patch
       params: {globs: ["*linux*"]}
+    - get: semver-cli
+      params: {globs: ["*linux*"]}
     - get: om
       params: {globs: ["*linux*"]}
     - get: cf-cli-tarball
@@ -136,9 +136,6 @@ jobs:
       params: {globs: ["*linux*"]}
     - get: govc
       params: {globs: ["*linux_amd64*"]}
-    - get: om-beta
-      params: {globs: ["*linux*"]}
-      version: { tag: '0.17-beta.0' }
     - get: stemcell-downloader
       params: {globs: ["*linux*"]}
     - get: steamroll
@@ -156,11 +153,11 @@ jobs:
       - name: pcf-pipelines
       - name: om
       - name: yaml-patch
+      - name: semver-cli
       - name: cf-cli-tarball
       - name: cliaas
       - name: pivnet-cli
       - name: govc
-      - name: om-beta
       - name: stemcell-downloader
       - name: steamroll
       - name: terraform
@@ -173,13 +170,13 @@ jobs:
         - -c
         - |
           cp \
+            semver-cli/semver-linux \
             om/om-linux \
             yaml-patch/yaml_patch_linux \
             cliaas/cliaas-linux \
             jq/jq \
             workspace
 
-          cp om-beta/om-linux workspace/om-linux-beta
           cp pivnet-cli/pivnet-linux-* workspace/pivnet-cli
           cp stemcell-downloader/stemcell-downloader-linux workspace/stemcell-downloader
           cp steamroll/steamroll_linux workspace/steamroll
@@ -221,14 +218,14 @@ jobs:
         args:
         - -c
         - |
-          set -e
+          set -xe
           which om-linux
           which yaml_patch_linux
+          which semver-linux
           which cf
           which cliaas-linux
           which pivnet-cli
           which govc
-          which om-linux-beta
           which stemcell-downloader
           which jq
           which terraform

@@ -2,12 +2,12 @@ FROM cloudfoundry/cflinuxfs2
 
 COPY \
        om-linux \
+       semver-linux \
        yaml_patch_linux \
        cf \
        cliaas-linux \
        pivnet-cli \
        govc \
-       om-linux-beta \
        stemcell-downloader \
        steamroll \
        jq \
