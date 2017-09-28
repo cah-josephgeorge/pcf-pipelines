@@ -6,7 +6,7 @@ image_resource:
   source:
     repository: czero/cflinuxfs2
 inputs:
-  - name: pcf-pipelines 
+  - name: pcf-pipelines
   - name: terraform-state
 outputs:
   - name: terraform-state-output
@@ -17,5 +17,10 @@ params:
   AWS_ACCESS_KEY_ID:
   AWS_SECRET_ACCESS_KEY:
   AWS_REGION:
+  TF_VAR_opsman_public_ip_az1:
+  TF_VAR_nat_public_ip_az1:
+  TF_VAR_nat_public_ip_az2:
+  TF_VAR_nat_public_ip_az3:
+
 run:
   path: pcf-pipelines/install-pcf/aws/tasks/wipe-env/task.sh
