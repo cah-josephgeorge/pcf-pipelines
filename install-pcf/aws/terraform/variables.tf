@@ -157,6 +157,7 @@ variable "route53_zone_id" {
 
 variable "opsman_public_ip_az1" {
     description = "OpsMan Public IP for AZ1"
+    default = "0.0.0.0"
 }
 
 variable "nat_public_ip_az1" {
