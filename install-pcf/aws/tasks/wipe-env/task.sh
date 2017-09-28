@@ -33,5 +33,6 @@ terraform destroy \
   -var "az2=dontcare" \
   -var "az3=dontcare" \
   -var "route53_zone_id=dontcare" \
+  -var "nat_public_ip_az1=dontcare" \
   -state "${root}/terraform-state/terraform.tfstate" \
   -state-out "${root}/terraform-state-output/terraform.tfstate"
