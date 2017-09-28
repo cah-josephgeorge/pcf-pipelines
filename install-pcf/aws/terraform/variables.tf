@@ -161,12 +161,15 @@ variable "opsman_public_ip_az1" {
 
 variable "nat_public_ip_az1" {
     description = "NAT Public IP for AZ1"
+    default = "0.0.0.0"
 }
 
 variable "nat_public_ip_az2" {
     description = "NAT Public IP for AZ2"
+    default = "0.0.0.0"
 }
 
 variable "nat_public_ip_az3" {
     description = "NAT Public IP for AZ3"
+    default = "0.0.0.0"
 }
