@@ -1,13 +1,7 @@
 resource "aws_db_subnet_group" "rds_subnet_group" {
     name = "${var.prefix}-rds_subnet_group"
     subnet_ids = ["${aws_subnet.PcfVpcRdsSubnet_az1.id}", "${aws_subnet.PcfVpcRdsSubnet_az2.id}", "${aws_subnet.PcfVpcRdsSubnet_az3.id}"]
-    tags {
-        Name = "${var.prefix} RDS DB subnet group"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s RDS DB subnet group", var.prefix)))}"
 }
 resource "aws_db_instance" "pcf_rds" {
     identifier              = "${var.prefix}-pcf"
@@ -27,9 +21,5 @@ resource "aws_db_instance" "pcf_rds" {
     apply_immediately       = true
     skip_final_snapshot     = true
 
-    tags {
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${var.tags}"
 }

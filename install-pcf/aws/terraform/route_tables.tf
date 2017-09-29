@@ -8,13 +8,7 @@ resource "aws_route_table" "PublicSubnetRouteTable" {
         gateway_id = "${aws_internet_gateway.internetGw.id}"
     }
 
-    tags {
-        Name = "${var.prefix}-Public Subnet Route Table"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-Public Subnet Route Table", var.prefix)))}"
 }
 
 # AZ1 Routing table
@@ -26,13 +20,7 @@ resource "aws_route_table" "PrivateSubnetRouteTable_az1" {
         instance_id = "${aws_instance.nat_az1.id}"
     }
 
-    tags {
-        Name = "${var.prefix}-Private Subnet Route Table AZ1"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-Private Subnet Route Table AZ1", var.prefix)))}"
 }
 
 # AZ2 Routing table
@@ -44,13 +32,7 @@ resource "aws_route_table" "SubnetRouteTable_az2" {
         instance_id = "${aws_instance.nat_az2.id}"
     }
 
-    tags {
-        Name = "${var.prefix}-Private Subnet Route Table AZ2"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-Private Subnet Route Table AZ2", var.prefix)))}"
 }
 
 # AZ3 Routing table
@@ -62,11 +44,5 @@ resource "aws_route_table" "SubnetRouteTable_az3" {
         instance_id = "${aws_instance.nat_az3.id}"
     }
 
-    tags {
-        Name = "${var.prefix}-Private Subnet Route Table AZ3"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-Private Subnet Route Table AZ3", var.prefix)))}"
 }

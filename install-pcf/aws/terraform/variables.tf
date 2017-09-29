@@ -174,3 +174,9 @@ variable "nat_public_ip_az3" {
     description = "NAT Public IP for AZ3"
     default = "0.0.0.0"
 }
+
+variable "tags" {
+    type = "map"
+    description = "Additional tags to be added to resources"
+    default = {}
+}

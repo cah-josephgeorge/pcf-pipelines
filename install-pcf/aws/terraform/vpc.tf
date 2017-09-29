@@ -4,23 +4,11 @@
 resource "aws_vpc" "PcfVpc" {
     cidr_block = "${var.vpc_cidr}"
     enable_dns_hostnames = true
-    tags {
-        Name = "${var.prefix}-terraform-pcf-vpc"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-terraform-pcf-vpc", var.prefix)))}"
 }
 resource "aws_internet_gateway" "internetGw" {
     vpc_id = "${aws_vpc.PcfVpc.id}"
-    tags {
-        Name = "${var.prefix}-internet-gateway"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-internet-gateway", var.prefix)))}"
 }
 
 # 3. NAT instance setup
@@ -29,13 +17,7 @@ resource "aws_security_group" "nat_instance_sg" {
     name = "${var.prefix}-nat_instance_sg"
     description = "${var.prefix} NAT Instance Security Group"
     vpc_id = "${aws_vpc.PcfVpc.id}"
-    tags {
-        Name = "${var.prefix}-NAT intance security group"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-NAT intance security group", var.prefix)))}"
     ingress {
         from_port = 0
         to_port = 0
@@ -61,13 +43,7 @@ resource "aws_instance" "nat_az1" {
     source_dest_check = false
     private_ip = "${var.nat_ip_az1}"
 
-    tags {
-        Name = "${var.prefix}-Nat Instance az1"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-Nat Instance az1", var.prefix)))}"
 }
 
 resource "aws_instance" "nat_az2" {
@@ -81,13 +57,7 @@ resource "aws_instance" "nat_az2" {
     source_dest_check = false
     private_ip = "${var.nat_ip_az2}"
 
-    tags {
-        Name = "${var.prefix}-Nat Instance az2"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-Nat Instance az2", var.prefix)))}"
 }
 
 # NAT Insance
@@ -102,13 +72,7 @@ resource "aws_instance" "nat_az3" {
     source_dest_check = false
     private_ip = "${var.nat_ip_az3}"
 
-    tags {
-        Name = "${var.prefix}-Nat Instance az3"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-Nat Instance az3", var.prefix)))}"
 }
 
 resource "aws_eip_association" "eip_assoc_nat_az1" {

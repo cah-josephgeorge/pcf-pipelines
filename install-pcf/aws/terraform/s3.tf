@@ -1,74 +1,39 @@
-resource "aws_s3_bucket" "pcf-bosh" {
-    bucket = "${var.prefix}-pcf-bosh"
+resource "aws_s3_bucket" "bosh" {
+    bucket = "${var.prefix}-bosh"
     acl = "private"
     force_destroy= true
 
-    tags {
-        Name = "${var.prefix}-pcf-bosh"
-        Environment = "${var.prefix}"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-bosh", var.prefix)))}"
 }
 
-resource "aws_s3_bucket" "pcf-buildpacks" {
-    bucket = "${var.prefix}-pcf-buildpacks"
+resource "aws_s3_bucket" "buildpacks" {
+    bucket = "${var.prefix}-buildpacks"
     acl = "private"
     force_destroy= true
 
-    tags {
-        Name = "${var.prefix}-pcf-buildpacks"
-        Environment = "${var.prefix}"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-buildpacks", var.prefix)))}"
 }
 
-resource "aws_s3_bucket" "pcf-droplets" {
-    bucket = "${var.prefix}-pcf-droplets"
+resource "aws_s3_bucket" "droplets" {
+    bucket = "${var.prefix}-droplets"
     acl = "private"
     force_destroy= true
 
-    tags {
-        Name = "${var.prefix}-pcf-droplets"
-        Environment = "${var.prefix}"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-droplets", var.prefix)))}"
 }
 
-resource "aws_s3_bucket" "pcf-packages" {
-    bucket = "${var.prefix}-pcf-packages"
+resource "aws_s3_bucket" "packages" {
+    bucket = "${var.prefix}-packages"
     acl = "private"
     force_destroy= true
 
-    tags {
-        Name = "${var.prefix}-pcf-packages"
-        Environment = "${var.prefix}"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-packages", var.prefix)))}"
 }
 
-resource "aws_s3_bucket" "pcf-resources" {
-    bucket = "${var.prefix}-pcf-resources"
+resource "aws_s3_bucket" "resources" {
+    bucket = "${var.prefix}-resources"
     acl = "private"
     force_destroy= true
 
-    tags {
-        Name = "${var.prefix}-pcf-resources"
-        Environment = "${var.prefix}"
-
-        "fuse:terraform" = "pivotal-sb1"
-        "fuse:product" = "pivotal"
-        "fuse:environment" = "nonprod"
-    }
+    tags = "${merge(var.tags, map("Name", format("%s-resources", var.prefix)))}"
 }

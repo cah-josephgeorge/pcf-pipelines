@@ -11,7 +11,7 @@ resource "aws_route53_record" "apps_wild_card" {
   name = "*.apps"
   type = "CNAME"
   ttl = "900"
-  records = ["${aws_alb.PcfHttpAlb.dns_name}"]
+  records = ["${aws_elb.PcfHttpElb.dns_name}"]
 }
 
 resource "aws_route53_record" "system_wild_card" {
@@ -19,7 +19,7 @@ resource "aws_route53_record" "system_wild_card" {
   name = "*.system"
   type = "CNAME"
   ttl = "900"
-  records = ["${aws_alb.PcfHttpAlb.dns_name}"]
+  records = ["${aws_elb.PcfHttpElb.dns_name}"]
 }
 
 resource "aws_route53_record" "ssh" {

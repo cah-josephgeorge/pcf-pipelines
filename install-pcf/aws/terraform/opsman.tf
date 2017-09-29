@@ -11,14 +11,7 @@ resource "aws_instance" "opsmman_az1" {
   root_block_device {
     volume_size = 100
   }
-  tags {
-    Name = "${var.prefix}-OpsMan az1"
-
-    "fuse:terraform" = "pivotal-sb1"
-    "fuse:product" = "pivotal"
-    "fuse:environment" = "nonprod"
-    "fuse:crowdstrike" = "na"
-  }
+  tags = "${merge(var.tags, map("Name", format("%s-OpsMan az1", var.prefix)))}"
 }
 
 resource "aws_eip_association" "eip_assoc_opsman_az1" {
