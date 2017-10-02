@@ -23,7 +23,7 @@ output "pcf_security_group" {
     value = "${aws_security_group.pcfSG.id}"
 }
 output "opsman_eip" {
-    value = "${aws_eip.opsman.public_ip}"
+    value = "${data.aws_eip.eip_opsman_az1.public_ip}"
 }
 # s3 buckets
 output "s3_pcf_bosh" {
@@ -48,8 +48,6 @@ output "dns" {
 }
 
 # AZ1
-
-
 output "public_subnet_cidr_az1" {
     value = "${var.public_subnet_cidr_az1}"
 }

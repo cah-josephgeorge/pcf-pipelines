@@ -22,8 +22,3 @@ resource "aws_eip_association" "eip_assoc_opsman_az1" {
 data "aws_eip" "eip_opsman_az1" {
   public_ip = "${var.opsman_public_ip_az1}"
 }
-
-resource "aws_eip" "opsman" {
-  instance = "${aws_instance.opsmman_az1.id}"
-  vpc      = true
-}
