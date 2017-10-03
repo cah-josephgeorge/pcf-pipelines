@@ -365,6 +365,11 @@ jobs:
       AWS_ACCESS_KEY_ID: {{TF_VAR_aws_access_key}}
       AWS_SECRET_ACCESS_KEY: {{TF_VAR_aws_secret_key}}
       AWS_REGION: {{TF_VAR_aws_region}}
+      TF_VAR_opsman_public_ip_az1: {{TF_VAR_opsman_public_ip_az1}}
+      TF_VAR_nat_public_ip_az1: {{TF_VAR_nat_public_ip_az1}}
+      TF_VAR_nat_public_ip_az2: {{TF_VAR_nat_public_ip_az2}}
+      TF_VAR_nat_public_ip_az3: {{TF_VAR_nat_public_ip_az3}}
+
 
 - name: verify-infrastructure
   serial_groups: [terraform]

@@ -7,8 +7,8 @@ source pcf-pipelines/functions/generate_cert.sh
 
 if [[ ${pcf_ert_ssl_cert} == "" || ${pcf_ert_ssl_cert} == "generate" ]]; then
   domains=(
-    "*.sys.${pcf_ert_domain}"
-    "*.cfapps.${pcf_ert_domain}"
+    "*.system.${pcf_ert_domain}"
+    "*.apps.${pcf_ert_domain}"
   )
 
   certificates=$(generate_cert "${domains[*]}")
@@ -17,9 +17,9 @@ if [[ ${pcf_ert_ssl_cert} == "" || ${pcf_ert_ssl_cert} == "generate" ]]; then
 fi
 
 saml_domains=(
-  "*.sys.${pcf_ert_domain}"
-  "*.login.sys.${pcf_ert_domain}"
-  "*.uaa.sys.${pcf_ert_domain}"
+  "*.system.${pcf_ert_domain}"
+  "*.login.system.${pcf_ert_domain}"
+  "*.uaa.system.${pcf_ert_domain}"
 )
 
 saml_certificates=$(generate_cert "${saml_domains[*]}")
@@ -240,8 +240,8 @@ cf_properties=$(
       ".properties.uaa_database.external.port": { "value": "3306" },
       ".properties.uaa_database.external.uaa_username": { "value": $db_uaa_username },
       ".properties.uaa_database.external.uaa_password": { "value": { "secret": $db_uaa_password } },
-      ".cloud_controller.system_domain": { "value": "sys.\($pcf_ert_domain)" },
-      ".cloud_controller.apps_domain": { "value": "cfapps.\($pcf_ert_domain)" },
+      ".cloud_controller.system_domain": { "value": "system.\($pcf_ert_domain)" },
+      ".cloud_controller.apps_domain": { "value": "apps.\($pcf_ert_domain)" },
       ".cloud_controller.allow_app_ssh_access": { "value": true },
       ".cloud_controller.security_event_logging_enabled": { "value": true },
       ".router.disable_insecure_cookies": { "value": false },
