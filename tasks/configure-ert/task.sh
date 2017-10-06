@@ -344,6 +344,8 @@ cf_properties=$(
         ".properties.uaa.ldap.group_search_filter": {"value": $ldap_group_search_filter},
         ".properties.uaa.ldap.ldap_referrals": {"value": $ldap_referrals}
       }
+    else
+      .
     end
     '
 )
