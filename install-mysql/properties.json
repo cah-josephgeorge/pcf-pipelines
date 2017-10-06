@@ -1,0 +1,489 @@
+{
+  "properties": {
+    ".properties.backup_options": { "value": "disable" },
+    ".properties.backups": {"value": "disable" },
+    ".properties.optional_protections": { "value": "enable" },
+    ".properties.optional_protections.enable.recipient_email": { "value": "G-Fuse-CoreDM@cardinalhealth.com" },
+    ".properties.syslog": { "value": "enabled" },
+    ".properties.syslog.enabled.address": { "value": "dev-cflogstash.cahcommtech.com" },
+    ".properties.syslog.enabled.port": { "value": 1514 },
+    ".properties.buffer_pool_size": {
+      "type": "selector",
+      "configurable": true,
+      "credential": false,
+      "value": "percent",
+      "optional": false
+    },
+    ".properties.buffer_pool_size.percent.buffer_pool_size_percent": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 50,
+      "optional": false
+    },
+    ".properties.buffer_pool_size.bytes.buffer_pool_size_bytes": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": null,
+      "optional": false
+    },
+    ".mysql.vm_credentials": {
+      "type": "salted_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "vcap",
+        "salt": "***",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".mysql.mysql_admin_password": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "admin",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".mysql.mysql_backup_server_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "QpG4bwTe1MAOy_kSCmCWcqyVhEeMMOCe",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".mysql.mysql_diag_agent_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "mysql-diag-user",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".mysql.mysql_bootstrap_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "H_gLqsNZslOuXASbZsy7r_SvmOcNI-t_",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".mysql.cluster_healthcheck_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "ShNSvZcTdn_Vl1rb4SSHUuyRw8-KgrPs",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".mysql.galera_healthcheck_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "galera-healthcheck",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".mysql.roadmin_password": {
+      "type": "secret",
+      "configurable": true,
+      "credential": true,
+      "value": {
+        "secret": "***"
+      },
+      "optional": true
+    },
+    ".mysql.skip_name_resolve": {
+      "type": "boolean",
+      "configurable": true,
+      "credential": false,
+      "value": true,
+      "optional": false
+    },
+    ".mysql.innodb_large_prefix_enabled": {
+      "type": "boolean",
+      "configurable": true,
+      "credential": false,
+      "value": true,
+      "optional": false
+    },
+    ".mysql.wsrep_debug": {
+      "type": "boolean",
+      "configurable": true,
+      "credential": false,
+      "value": true,
+      "optional": false
+    },
+    ".mysql.mysql_start_timeout": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 60,
+      "optional": false
+    },
+    ".mysql.metrics_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "mysql-metrics",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".mysql.metrics_polling_frequency": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 30,
+      "optional": false
+    },
+    ".mysql.cluster_probe_timeout": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 10,
+      "optional": false
+    },
+    ".mysql.tmp_table_size": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 33554432,
+      "optional": false
+    },
+    ".mysql.table_open_cache": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 2000,
+      "optional": false
+    },
+    ".mysql.table_definition_cache": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 8192,
+      "optional": false
+    },
+    ".mysql.max_connections": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 1500,
+      "optional": false
+    },
+    ".mysql.binlog_expire_days": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 7,
+      "optional": false
+    },
+    ".mysql.cluster_name": {
+      "type": "string",
+      "configurable": true,
+      "credential": false,
+      "value": "cf-sb1-va-mysql-cluster",
+      "optional": false
+    },
+    ".mysql.innodb_strict_mode": {
+      "type": "boolean",
+      "configurable": true,
+      "credential": false,
+      "value": true,
+      "optional": false
+    },
+    ".mysql.cli_history": {
+      "type": "boolean",
+      "configurable": true,
+      "credential": false,
+      "value": true,
+      "optional": false
+    },
+    ".mysql.allow_remote_admin_access": {
+      "type": "boolean",
+      "configurable": true,
+      "credential": false,
+      "value": false,
+      "optional": false
+    },
+    ".mysql.allow_local_infile": {
+      "type": "boolean",
+      "configurable": true,
+      "credential": false,
+      "value": true,
+      "optional": false
+    },
+    ".backup-prepare.backup_encryption_key": {
+      "type": "secret",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "secret": "***"
+      },
+      "optional": false
+    },
+    ".backup-prepare.vm_credentials": {
+      "type": "salted_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "vcap",
+        "salt": "***",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".proxy.vm_credentials": {
+      "type": "salted_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "vcap",
+        "salt": "***",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".proxy.dashboard_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "admin",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".proxy.static_ips": {
+      "type": "ip_ranges",
+      "configurable": true,
+      "credential": false,
+      "value": null,
+      "optional": true
+    },
+    ".proxy.shutdown_delay": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 0,
+      "optional": false
+    },
+    ".proxy.startup_delay": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 0,
+      "optional": false
+    },
+    ".monitoring.vm_credentials": {
+      "type": "salted_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "vcap",
+        "salt": "***",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".monitoring.canary_db_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "repcanary",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".monitoring.uaa_client_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "mysql-monitoring",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".cf-mysql-broker.vm_credentials": {
+      "type": "salted_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "vcap",
+        "salt": "***",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".cf-mysql-broker.broker_auth_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "igq-laqAIWtQrj52ALH8X62C52wzwVcJ",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".cf-mysql-broker.dashboard_client_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "p-mysql",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".cf-mysql-broker.quota_enforcer_credentials": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "quota-enforcer",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".cf-mysql-broker.broker_db_password": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "ccpmBWNSQv1L_pbFF1RJduJhOJrhSq1S",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".cf-mysql-broker.quota_enforcer_pause": {
+      "type": "integer",
+      "configurable": true,
+      "credential": false,
+      "value": 30,
+      "optional": false
+    },
+    ".cf-mysql-broker.allow_table_locks": {
+      "type": "boolean",
+      "configurable": true,
+      "credential": false,
+      "value": true,
+      "optional": false
+    },
+    ".cf-mysql-broker.broker_name": {
+      "type": "string",
+      "configurable": false,
+      "credential": false,
+      "value": "p-mysql",
+      "optional": false
+    },
+    ".cf-mysql-broker.cookie_secret": {
+      "type": "secret",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "secret": "***"
+      },
+      "optional": false
+    },
+    ".cf-mysql-broker.bind_hostname": {
+      "type": "string",
+      "configurable": true,
+      "credential": false,
+      "value": null,
+      "optional": true
+    },
+    ".cf-mysql-broker.quota_enforcer_password": {
+      "type": "secret",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "secret": "***"
+      },
+      "optional": false
+    },
+    ".broker-registrar.vm_credentials": {
+      "type": "salted_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "vcap",
+        "salt": "***",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".deregister-and-purge-instances.vm_credentials": {
+      "type": "salted_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "vcap",
+        "salt": "***",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".rejoin-unsafe.vm_credentials": {
+      "type": "salted_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "vcap",
+        "salt": "***",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".smoke-tests.vm_credentials": {
+      "type": "salted_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "vcap",
+        "salt": "***",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".smoke-tests.smoke_test_password": {
+      "type": "simple_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "f9t0OngxzjMUHADMgmWBxmh5KCR-9AY0",
+        "password": "***"
+      },
+      "optional": false
+    },
+    ".bootstrap.vm_credentials": {
+      "type": "salted_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "identity": "vcap",
+        "salt": "***",
+        "password": "***"
+      },
+      "optional": false
+    }
+  }
+}
