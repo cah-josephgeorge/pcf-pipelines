@@ -190,6 +190,15 @@ cf_properties=$(
     --arg mysql_backups_s3_access_key_id "$MYSQL_BACKUPS_S3_ACCESS_KEY_ID" \
     --arg mysql_backups_s3_secret_access_key "$MYSQL_BACKUPS_S3_SECRET_ACCESS_KEY" \
     --arg mysql_backups_s3_cron_schedule "$MYSQL_BACKUPS_S3_CRON_SCHEDULE" \
+    --arg user_store "$USER_STORE" \
+    --arg ldap_url "$LDAP_URL" \
+    --arg ldap_user "$LDAP_USER" \
+    --arg ldap_password "$LDAP_PASSWORD" \
+    --arg ldap_search_base "$LDAP_SEARCH_BASE" \
+    --arg ldap_search_filter "$LDAP_SEARCH_FILTER" \
+    --arg ldap_group_search_base "$LDAP_GROUP_SEARCH_BASE" \
+    --arg ldap_group_search_filter "$LDAP_GROUP_SEARCH_FILTER" \
+    --arg ldap_referrals "$LDAP_REFERRALS" \
     '
     {
       ".properties.networking_point_of_entry": { "value": "external_ssl" },
@@ -318,6 +327,22 @@ cf_properties=$(
     else
       {
         ".properties.mysql_backups": {"value": "disable"}
+      }
+    end
+
+    +
+
+    # LDAP
+    if $user_store == "ldap" then
+      {
+        ".properties.properties.".properties.uaa" = {"value": $user_store},
+        ".properties.properties.".properties.uaa.ldap.url" = {"value": $ldap_url},
+        ".properties.properties.".properties.uaa.ldap.credentials".value = {"identity": $ldap_user, "password": $ldap_password},
+        ".properties.properties.".properties.uaa.ldap.search_base" = {"value": $ldap_search_base},
+        ".properties.properties.".properties.uaa.ldap.search_filter" = {"value": $ldap_search_filter},
+        ".properties.properties.".properties.uaa.ldap.group_search_base" = {"value": $ldap_group_search_base},
+        ".properties.properties.".properties.uaa.ldap.group_search_filter" = {"value": $ldap_group_search_filter},
+        ".properties.properties.".properties.uaa.ldap.ldap_referrals" = {"value": $ldap_referrals}
       }
     end
     '
