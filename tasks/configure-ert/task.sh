@@ -337,8 +337,7 @@ cf_properties=$(
       {
         ".properties.uaa": {"value": $user_store},
         ".properties.uaa.ldap.url": {"value": $ldap_url},
-        ".properties.uaa.ldap.credentials.identity": {"value": $ldap_user},
-        ".properties.uaa.ldap.credentials.password":  {"value": { "secret": $ldap_password}},
+        ".properties.uaa.ldap.credentials": { "value": { "identity": $ldap_user, "password": $ldap_password }},
         ".properties.uaa.ldap.search_base": {"value": $ldap_search_base},
         ".properties.uaa.ldap.search_filter": {"value": $ldap_search_filter},
         ".properties.uaa.ldap.group_search_base": {"value": $ldap_group_search_base},
