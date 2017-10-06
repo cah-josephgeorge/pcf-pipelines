@@ -1,0 +1,92 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+- name: pivnet-scs
+  type: pivnet
+  check_every: 4h
+  source:
+    api_token: {{pivnet_token}}
+    product_slug: p-spring-cloud-services
+    product_version: {{scs_major_minor_version}}
+    sort_by: semver
+
+- name: pcf-pipelines
+  type: git
+  source:
+    uri: git@github.com:cah-josephgeorge/pcf-pipelines.git
+    branch: fuse
+    private_key: {{git_private_key}}
+
+jobs:
+- name: upload-scs
+  serial_groups: [opsman]
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: pivnet-product
+      resource: pivnet-scs
+      params:
+        globs:
+        - "*pivotal"
+  - task: upload-tile
+    file: pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
+    params:
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{OPSMAN_URI}}
+      OPS_MGR_USR: {{OPSMAN_USER}}
+      OPS_MGR_PWD: {{OPSMAN_PASSWORD}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
+      IAAS: "aws"
+      NO_PROXY: ""
+      OM_IP: ""
+  - task: stage-tile
+    file: pcf-pipelines/tasks/stage-product/task.yml
+    params:
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{OPSMAN_URI}}
+      OPSMAN_USERNAME: {{OPSMAN_USER}}
+      OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
+      PRODUCT_NAME: p-spring-cloud-services
+
+- name: deploy-scs
+  serial_groups: [opsman]
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+      passed: [upload-scs]
+
+  - task: configure-scs
+    file: pcf-pipelines/install-scs/tasks/configure/task.yml
+    params:
+      pcf_iaas: aws
+      pcf_ert_domain: {{ERT_DOMAIN}}
+      pcf_opsman_admin: {{OPSMAN_USER}}
+      pcf_opsman_admin_passwd: {{OPSMAN_PASSWORD}}
+
+  - task: disable-ert-errands
+    file: pcf-pipelines/tasks/disable-errands/task.yml
+    params:
+      PRODUCT_NAME: cf
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{OPSMAN_URI}}
+      OPSMAN_USERNAME: {{OPSMAN_USER}}
+      OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
+      ERRANDS_TO_DISABLE: {{ert_errands_to_disable}}
+
+  - task: disable-scs-errands
+    file: pcf-pipelines/tasks/disable-errands/task.yml
+    params:
+      PRODUCT_NAME: p-spring-cloud-services
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{OPSMAN_URI}}
+      OPSMAN_USERNAME: {{OPSMAN_USER}}
+      OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
+      ERRANDS_TO_DISABLE: {{scs_errands_to_disable}}
+
+  - task: deploy-scs
+    file: pcf-pipelines/tasks/apply-changes/task.yml
+    params:
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{OPSMAN_URI}}
+      OPSMAN_USERNAME: {{OPSMAN_USER}}
+      OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
