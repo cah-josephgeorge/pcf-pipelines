@@ -46,6 +46,7 @@ params:
   TF_VAR_nat_ip_az1:
   TF_VAR_nat_ip_az2:
   TF_VAR_nat_ip_az3:
+  TF_VAR_tags:
   OPSMAN_ALLOW_SSH_CIDR_RANGES:
   OPSMAN_ALLOW_HTTPS_CIDR_RANGES:
 run:
