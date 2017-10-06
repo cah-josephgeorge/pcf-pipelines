@@ -335,14 +335,14 @@ cf_properties=$(
     # LDAP
     if $user_store == "ldap" then
       {
-        ".properties.properties.".properties.uaa" = {"value": $user_store},
-        ".properties.properties.".properties.uaa.ldap.url" = {"value": $ldap_url},
-        ".properties.properties.".properties.uaa.ldap.credentials".value = {"identity": $ldap_user, "password": $ldap_password},
-        ".properties.properties.".properties.uaa.ldap.search_base" = {"value": $ldap_search_base},
-        ".properties.properties.".properties.uaa.ldap.search_filter" = {"value": $ldap_search_filter},
-        ".properties.properties.".properties.uaa.ldap.group_search_base" = {"value": $ldap_group_search_base},
-        ".properties.properties.".properties.uaa.ldap.group_search_filter" = {"value": $ldap_group_search_filter},
-        ".properties.properties.".properties.uaa.ldap.ldap_referrals" = {"value": $ldap_referrals}
+        ".properties.uaa" = {"value": $user_store},
+        ".properties.uaa.ldap.url" = {"value": $ldap_url},
+        ".properties.uaa.ldap.credentials".value = {"identity": $ldap_user, "password": $ldap_password},
+        ".properties.uaa.ldap.search_base" = {"value": $ldap_search_base},
+        ".properties.uaa.ldap.search_filter" = {"value": $ldap_search_filter},
+        ".properties.uaa.ldap.group_search_base" = {"value": $ldap_group_search_base},
+        ".properties.uaa.ldap.group_search_filter" = {"value": $ldap_group_search_filter},
+        ".properties.uaa.ldap.ldap_referrals" = {"value": $ldap_referrals}
       }
     end
     '
