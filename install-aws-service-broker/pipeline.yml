@@ -112,7 +112,7 @@ jobs:
   - task: upload-tile
     file: pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
     params:
-      OPS_MGR_HOST: {{OPSMAN_URI}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{OPSMAN_URI}}
       OPS_MGR_USR: {{OPSMAN_USER}}
       OPS_MGR_PWD: {{OPSMAN_PASSWORD}}
       PIVNET_API_TOKEN: {{pivnet_token}}
@@ -122,7 +122,7 @@ jobs:
   - task: stage-tile
     file: pcf-pipelines/tasks/stage-product/task.yml
     params:
-      OPSMAN_URI: {{OPSMAN_URI}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{OPSMAN_URI}}
       OPSMAN_USERNAME: {{OPSMAN_USER}}
       OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
       PRODUCT_NAME: aws-services
@@ -170,7 +170,7 @@ jobs:
     file: pcf-pipelines/tasks/disable-errands/task.yml
     params:
       PRODUCT_NAME: cf
-      OPSMAN_URI: {{OPSMAN_URI}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{OPSMAN_URI}}
       OPSMAN_USERNAME: {{OPSMAN_USER}}
       OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
       ERRANDS_TO_DISABLE: {{ert_errands_to_disable}}
@@ -179,7 +179,7 @@ jobs:
     file: pcf-pipelines/tasks/disable-errands/task.yml
     params:
       PRODUCT_NAME: aws-services
-      OPSMAN_URI: {{OPSMAN_URI}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{OPSMAN_URI}}
       OPSMAN_USERNAME: {{OPSMAN_USER}}
       OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
       ERRANDS_TO_DISABLE: {{aws_errands_to_disable}}
@@ -187,6 +187,6 @@ jobs:
   - task: deploy-aws
     file: pcf-pipelines/tasks/apply-changes/task.yml
     params:
-      OPSMAN_URI: {{OPSMAN_URI}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{OPSMAN_URI}}
       OPSMAN_USERNAME: {{OPSMAN_USER}}
       OPSMAN_PASSWORD: {{OPSMAN_PASSWORD}}
